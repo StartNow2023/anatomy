@@ -1,96 +1,103 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>第 1 阶段 · 骨骼 · 解剖学习笔记</title>
-<meta name="description" content="解剖学习第 1 阶段：点一点认识全身主要骨骼，在自己身上摸骨性标志，再做一个看图认骨小测验。">
+<title>Stage 1 · Bones · Anatomy Notes</title>
+<meta name="description" content="Stage 1 of Anatomy Notes: explore a clickable, zoomable skeleton, find bony landmarks on your own body, and take a name-that-bone quiz.">
 <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header class="site-header">
   <div class="wrap">
-    <a class="logo" href="index.html"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><g fill="#3f6e8c" transform="rotate(-40 16 16)"><rect x="8" y="13" width="16" height="6" rx="2"/><circle cx="7.5" cy="12.6" r="4"/><circle cx="7.5" cy="19.4" r="4"/><circle cx="24.5" cy="12.6" r="4"/><circle cx="24.5" cy="19.4" r="4"/></g></svg>解剖学习笔记 <span class="en">Anatomy Notes</span></a>
+    <a class="logo" href="index.html"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><g fill="#3f6e8c" transform="rotate(-40 16 16)"><rect x="8" y="13" width="16" height="6" rx="2"/><circle cx="7.5" cy="12.6" r="4"/><circle cx="7.5" cy="19.4" r="4"/><circle cx="24.5" cy="12.6" r="4"/><circle cx="24.5" cy="19.4" r="4"/></g></svg>Anatomy Notes</a>
     <nav class="nav">
-      <a href="index.html">学习路线</a>
-      <a href="terms.html">0 方位术语</a>
-      <a href="bones.html" class="active">1 骨骼</a>
+      <a href="index.html">Roadmap</a>
+      <a href="terms.html">0 · Terms</a>
+      <a href="bones.html" class="active">1 · Bones</a>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
   <section class="page-hero">
-    <h1>第 1 阶段 · 骨骼<span class="en">Stage 1 · Bones</span></h1>
-    <p>成人一共约 206 块骨头，但不用一块块死记。先认清<b>主要的大骨头</b>，再在自己身上<b>摸到骨性标志</b>——骨骼就是后面学关节、肌肉时的"地图坐标"。</p>
+    <h1>Stage 1 · Bones<span class="en">The skeleton</span></h1>
+    <p>An adult has about 206 bones, but there's no need to memorise them one by one. First get to know the <b>major bones</b>, then <b>find the bony landmarks on your own body</b>. The skeleton is the map you'll use later for joints and muscles.</p>
     <div class="divider"></div>
   </section>
 
   <section class="section" id="explore">
-    <h2>点一点，认骨头<span class="en">Explore the Skeleton</span></h2>
-    <p>点图上的骨头，或者点下面的名字。图是正面看的：<b>图上左边是这个人的右边</b>。被挡在后面的骨头（比如胸椎、肩胛骨），选中后会透出来。</p>
+    <h2>Explore the skeleton</h2>
+    <p>Click a bone on the picture or a name below: the picture zooms in and marks its parts, and the <span class="mk">highlighted words</span> in the text point to them. This is a front view, so <b>the left side of the picture is the person's right side</b>. Bones hidden behind others, like the thoracic vertebrae or the scapula, show through when selected.</p>
     <div class="explore">
       <div class="card sk-figure">
+        <div class="sk-tools">
+          <button class="chip" id="sk-full" disabled>⤢ Whole body</button>
+          <button class="chip" id="sk-lab" aria-pressed="true">🏷 Labels</button>
+        </div>
         <div id="sk-fig"></div>
         <div class="sk-cap" id="sk-cap"></div>
       </div>
       <div>
         <div class="card sk-info" id="sk-info" aria-live="polite"></div>
         <div class="sk-list" id="sk-list"></div>
+        <p class="note" style="margin-top:16px">Tip: turn <b>Labels</b> off to test yourself — point at each bone and say its name before you click it.</p>
       </div>
     </div>
   </section>
 
   <section class="section narrow" style="margin:0 auto" id="count">
-    <h2>206 块是怎么数出来的<span class="en">Counting to 206</span></h2>
+    <h2>How to count to 206</h2>
     <div class="table-scroll">
       <table class="cmp">
-        <tr><th>部分</th><th>包括</th><th>块数</th></tr>
-        <tr><td><b>颅骨</b></td><td>脑颅骨 8 块 + 面颅骨 15 块</td><td>23</td></tr>
-        <tr><td><b>听小骨</b></td><td>锤骨、砧骨、镫骨，左右耳各 3 块（图上没画，藏在耳朵里）</td><td>6</td></tr>
-        <tr><td><b>躯干骨</b></td><td>椎骨 26（颈椎 7 + 胸椎 12 + 腰椎 5 + 骶骨 1 + 尾骨 1）+ 胸骨 1 + 肋骨 24</td><td>51</td></tr>
-        <tr><td><b>上肢骨</b></td><td>每侧 32：锁骨 1 + 肩胛骨 1 + 肱骨 1 + 桡骨 1 + 尺骨 1 + 腕骨 8 + 掌骨 5 + 指骨 14</td><td>64</td></tr>
-        <tr><td><b>下肢骨</b></td><td>每侧 31：髋骨 1 + 股骨 1 + 髌骨 1 + 胫骨 1 + 腓骨 1 + 跗骨 7 + 跖骨 5 + 趾骨 14</td><td>62</td></tr>
-        <tr><td><b>合计</b></td><td></td><td><b>206</b></td></tr>
+        <tr><th>Part</th><th>What's included</th><th>Bones</th></tr>
+        <tr><td><b>Skull</b></td><td>8 cranial bones + 14 facial bones</td><td>22</td></tr>
+        <tr><td><b>Hyoid</b></td><td>A small U-shaped bone in the neck, under the jaw (not drawn)</td><td>1</td></tr>
+        <tr><td><b>Auditory ossicles</b></td><td>Malleus, incus and stapes — 3 in each ear (not drawn, they're inside the ear)</td><td>6</td></tr>
+        <tr><td><b>Vertebral column</b></td><td>7 cervical + 12 thoracic + 5 lumbar vertebrae + sacrum + coccyx</td><td>26</td></tr>
+        <tr><td><b>Thoracic cage</b></td><td>Sternum 1 + ribs 24</td><td>25</td></tr>
+        <tr><td><b>Upper limbs</b></td><td>32 per side: clavicle, scapula, humerus, radius and ulna (1 each) + 8 carpals + 5 metacarpals + 14 phalanges</td><td>64</td></tr>
+        <tr><td><b>Lower limbs</b></td><td>31 per side: hip bone, femur, patella, tibia and fibula (1 each) + 7 tarsals + 5 metatarsals + 14 phalanges</td><td>62</td></tr>
+        <tr><td><b>Total</b></td><td></td><td><b>206</b></td></tr>
       </table>
     </div>
-    <p class="note">206 是成年人的一般数字。新生儿的骨头约有 270～300 块，很多还没长到一起，长大后才慢慢融合。也有人天生多一块或少一块（比如多一根颈肋、多几块籽骨），都属于正常。听小骨里的镫骨只有米粒大小，是全身最小的骨头。</p>
+    <p class="note">206 is the usual number for adults. A newborn has around 270–300 bones, and many of them fuse as the child grows. Some people have an extra bone or one fewer (an extra cervical rib or extra sesamoid bones, for example), and that's normal too. The stapes in the ear is about the size of a grain of rice — the smallest bone in the body.</p>
 
-    <h2>骨头的四种形状<span class="en">Four Shapes</span></h2>
+    <h2>Four shapes of bone</h2>
     <div class="grid2">
-      <div class="card"><h4>📏 长骨</h4><p>长管状，两头膨大，多在四肢，像杠杆一样帮助运动。例：肱骨、股骨、指骨。</p></div>
-      <div class="card"><h4>🧊 短骨</h4><p>小块、近似立方体，常成群出现，能承受压力、灵活活动。例：腕骨、跗骨。</p></div>
-      <div class="card"><h4>🛡️ 扁骨</h4><p>薄薄的板状，常围成腔来保护里面的器官。例：颅顶的骨、胸骨、肋骨、肩胛骨。</p></div>
-      <div class="card"><h4>🧩 不规则骨</h4><p>形状不规则，不属于前三种。例：椎骨，以及颅底的颞骨、蝶骨。</p></div>
+      <div class="card"><h4>📏 Long bones</h4><p>Tube-shaped with wider ends, mostly in the limbs, where they work like levers. Examples: humerus, femur, phalanges.</p></div>
+      <div class="card"><h4>🧊 Short bones</h4><p>Small and roughly cube-shaped, often in groups; they take pressure and allow small movements. Examples: carpals, tarsals.</p></div>
+      <div class="card"><h4>🛡️ Flat bones</h4><p>Thin plates that often form a wall around organs to protect them. Examples: the bones of the skull roof, sternum, ribs, scapula.</p></div>
+      <div class="card"><h4>🧩 Irregular bones</h4><p>Bones with complicated shapes that don't fit the other groups. Examples: vertebrae, and the temporal and sphenoid bones of the skull.</p></div>
     </div>
-    <p class="note">还有一种特别的"籽骨"：长在肌腱里面，像滑轮一样帮肌肉省力。最大的籽骨就是膝盖上的髌骨。</p>
+    <p class="note">There is also a special kind, the <b>sesamoid bone</b>, which grows inside a tendon and works like a pulley for the muscle. The biggest one is the patella (kneecap).</p>
   </section>
 
   <section class="section narrow" style="margin:0 auto" id="landmarks">
-    <h2>在自己身上摸一摸<span class="en">Find Them on Your Body</span></h2>
-    <p>骨性标志就是隔着皮肤能摸到的骨头突起。摸到一个就打个勾，勾选只保存在你自己的浏览器里。目标：<b>能摸到十几个</b>，这一阶段就过关了。</p>
+    <h2>Find them on your body</h2>
+    <p>Bony landmarks are bumps of bone you can feel through the skin. Tick each one when you find it — ticks are saved only in your own browser — and tap <b>Show me</b> to see where it is on the skeleton. Goal: <b>find a dozen or more</b> and you've passed this stage.</p>
     <div class="check-top">
       <div class="progress"><span id="lm-bar"></span></div>
       <span id="lm-done" style="color:var(--muted);font-size:.92rem"></span>
-      <button class="btn ghost" id="lm-reset" style="padding:6px 16px;font-size:.9rem">全部清空 Reset</button>
+      <button class="btn ghost" id="lm-reset" style="padding:6px 16px;font-size:.9rem">Reset</button>
     </div>
     <div id="lm-list"></div>
   </section>
 
   <section class="section" id="test">
-    <h2 style="text-align:center">看图认骨小测验<span class="en">Quiz · Name That Bone</span></h2>
-    <p style="text-align:center;color:var(--muted)">每次随机抽 10 块骨头。手、脚这些小骨头会自动放大给你看。</p>
+    <h2 style="text-align:center">Quiz · Name that bone</h2>
+    <p style="text-align:center;color:var(--muted)">10 random bones each time. Small bones in the hands and feet are zoomed in for you.</p>
     <div class="quiz card" id="quiz"></div>
-    <p style="text-align:center;margin-top:20px"><a class="btn ghost" href="index.html">回到学习路线 Roadmap</a></p>
+    <p style="text-align:center;margin-top:20px"><a class="btn ghost" href="index.html">Back to the roadmap</a></p>
   </section>
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">解剖学习笔记 Anatomy Notes · 内容仅供学习参考，不构成医疗建议，身体不适请及时就医。示意图均为本站自绘。</div>
+  <div class="wrap">Anatomy Notes · For learning only — not medical advice. If you feel unwell, please see a doctor. All diagrams are original simplified drawings.</div>
 </footer>
 <script src="js/common.js"></script>
 <script src="js/bones.js"></script>

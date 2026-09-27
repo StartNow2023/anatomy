@@ -1,53 +1,61 @@
-// 第 0 阶段 · 方位术语
+// Stage 0 · Anatomical Terms（第 0 阶段 · 方位术语）
 // 想改术语说明：改下面 TERMS 里对应的一项
-// { id, name: 名称, en: 英文, also: 别名(可不写), mean: 意思, eg: 例子, fig: 用哪张示意图 }
+// { id, name: 名称, also: 别名(可不写), mean: 意思, eg: 例子 }
 const TERMS = [
-  { id: "updown", name: "上 / 下", en: "Superior / Inferior", also: "也叫颅侧 / 尾侧（Cranial / Caudal）",
-    mean: "靠近头的为上，靠近脚的为下。", eg: "心在膈的上方；膀胱在肚脐的下方。" },
-  { id: "antpost", name: "前 / 后", en: "Anterior / Posterior", also: "也叫腹侧 / 背侧（Ventral / Dorsal）",
-    mean: "靠近身体腹面（肚子那一面）的为前，靠近背面的为后。", eg: "胸骨在心的前方，脊柱在心的后方。" },
-  { id: "medlat", name: "内侧 / 外侧", en: "Medial / Lateral",
-    mean: "以身体的正中线为准：离正中线近的为内侧，远的为外侧。", eg: "眼在鼻的外侧、耳的内侧；按解剖学姿势，小指在拇指的内侧。" },
-  { id: "inout", name: "内 / 外", en: "Internal / External",
-    mean: "用来描述空腔器官或体腔：靠近腔里面的为内，远离腔的为外。注意它和\"内侧 / 外侧\"不是一回事——一个看离\"腔\"近不近，一个看离\"正中线\"近不近。", eg: "心脏壁最里面一层叫心内膜，最外面一层叫心外膜。" },
-  { id: "supdeep", name: "浅 / 深", en: "Superficial / Deep",
-    mean: "以体表为准：离皮肤近的为浅，离皮肤远、往身体里面去的为深。", eg: "皮肤在肌肉的浅面，骨在肌肉的深面。" },
-  { id: "proxdist", name: "近侧 / 远侧", en: "Proximal / Distal",
-    mean: "主要用于四肢：离肢体根部（和躯干相连的地方）近的为近侧，远的为远侧。", eg: "肘在腕的近侧；手指在手掌的远侧；膝在踝的近侧。" },
-  { id: "ulnrad", name: "尺侧 / 桡侧", en: "Ulnar / Radial",
-    mean: "前臂和手专用的内侧 / 外侧：内侧（小指这边）叫尺侧，外侧（拇指这边）叫桡侧，因为前臂的尺骨、桡骨正好在这两边。", eg: "小指在手的尺侧，拇指在手的桡侧。" },
-  { id: "tibfib", name: "胫侧 / 腓侧", en: "Tibial / Fibular",
-    mean: "小腿专用的内侧 / 外侧：内侧叫胫侧，外侧叫腓侧，因为小腿的胫骨、腓骨正好在这两边。", eg: "大脚趾在足的胫侧，小脚趾在足的腓侧。" },
+  { id: "updown", name: "Superior / Inferior", also: "Also called cranial / caudal",
+    mean: "Closer to the head is superior; closer to the feet is inferior.",
+    eg: "The heart is superior to the diaphragm. The bladder is inferior to the navel." },
+  { id: "antpost", name: "Anterior / Posterior", also: "Also called ventral / dorsal",
+    mean: "Closer to the front of the body (the belly side) is anterior; closer to the back is posterior.",
+    eg: "The sternum is anterior to the heart; the vertebral column is posterior to it." },
+  { id: "medlat", name: "Medial / Lateral",
+    mean: "Measured from the midline of the body: closer to the midline is medial, farther from it is lateral.",
+    eg: "The eye is lateral to the nose and medial to the ear. In the anatomical position, the little finger is medial to the thumb." },
+  { id: "inout", name: "Internal / External",
+    mean: "Used for hollow organs and body cavities: closer to the inside of the cavity is internal, farther from it is external. Don't mix this up with medial / lateral — one is about the cavity, the other about the midline.",
+    eg: "The innermost layer of the heart wall is the endocardium; the outermost layer is the epicardium." },
+  { id: "supdeep", name: "Superficial / Deep",
+    mean: "Measured from the body surface: closer to the skin is superficial; farther into the body is deep.",
+    eg: "The skin is superficial to the muscles; the bones are deep to the muscles." },
+  { id: "proxdist", name: "Proximal / Distal",
+    mean: "Used mainly for the limbs: closer to where the limb joins the trunk is proximal; farther away is distal.",
+    eg: "The elbow is proximal to the wrist. The fingers are distal to the palm. The knee is proximal to the ankle." },
+  { id: "ulnrad", name: "Ulnar / Radial",
+    mean: "Medial and lateral for the forearm and hand: the medial (little-finger) side is ulnar and the lateral (thumb) side is radial — because that is where the ulna and the radius lie.",
+    eg: "The little finger is on the ulnar side of the hand; the thumb is on the radial side." },
+  { id: "tibfib", name: "Tibial / Fibular",
+    mean: "Medial and lateral for the leg: the medial side is tibial and the lateral side is fibular — because that is where the tibia and the fibula lie.",
+    eg: "The big toe is on the tibial side of the foot; the little toe is on the fibular side." },
 ];
 
-// 小测验题目：想加新题，照格式加一项即可（options 里第一个不必是答案，会自动打乱）
+// 小测验题目：想加新题，照格式加一项即可（options 的顺序会自动打乱）
 const QUESTIONS = [
-  { q: "在解剖学姿势中，两只手的手掌朝向哪里？", options: ["朝前", "朝后", "朝向身体", "随便都行"], a: "朝前",
-    why: "解剖学姿势要求上肢下垂、手掌朝前。这样前臂的桡骨和尺骨是并排的，描述起来不会乱。" },
-  { q: "鼻子在眼睛的哪一侧？", options: ["内侧", "外侧"], a: "内侧",
-    why: "鼻子在正中线上，比眼睛更靠近正中线，所以鼻在眼的内侧。" },
-  { q: "手腕在肘关节的——", options: ["远侧", "近侧"], a: "远侧",
-    why: "离上肢根部（肩）越远越\"远侧\"。手腕比肘离肩更远。" },
-  { q: "皮肤在肌肉的——", options: ["浅面", "深面"], a: "浅面",
-    why: "离体表近的是浅。皮肤在最外面，所以在肌肉的浅面。" },
-  { q: "按解剖学姿势站好，拇指在手的哪一侧？", options: ["外侧（桡侧）", "内侧（尺侧）"], a: "外侧（桡侧）",
-    why: "手掌朝前时，拇指离正中线更远，在外侧，也就是桡侧。" },
-  { q: "把身体纵向切成左、右两部分的切面叫——", options: ["矢状面", "冠状面", "水平面"], a: "矢状面",
-    why: "矢状面是前后方向的竖切面，把身体分成左右两部分；正好从正中切开的叫正中矢状面。" },
-  { q: "把身体纵向切成前、后两部分的切面叫——", options: ["冠状面", "矢状面", "水平面"], a: "冠状面",
-    why: "冠状面（也叫额状面）是左右方向的竖切面，把身体分成前、后两部分。" },
-  { q: "做 CT 时看到的\"一层一层\"的横截面图像，多数属于——", options: ["水平面（横断面）", "矢状面", "冠状面"], a: "水平面（横断面）",
-    why: "CT 通常是一层层横着扫描的，图像就是水平面，也叫横断面。" },
-  { q: "胸骨在脊柱的——", options: ["前方", "后方"], a: "前方",
-    why: "胸骨在胸前正中，脊柱在背后，所以胸骨在脊柱的前方（腹侧）。" },
-  { q: "看一张面对你的人体图，图上这个人的\"右肩\"在你的哪一边？", options: ["我的左边", "我的右边"], a: "我的左边",
-    why: "解剖学里的左右，永远是指被描述的那个人自己的左右。他面对着你，所以他的右边在你的左边。" },
-  { q: "心脏在膈的——", options: ["上方", "下方"], a: "上方",
-    why: "膈是胸腔和腹腔之间的\"隔板\"。心在胸腔里，所以在膈的上方。" },
-  { q: "描述\"心内膜在心脏壁的最里层\"，用的是哪一对术语？", options: ["内 / 外", "内侧 / 外侧"], a: "内 / 外",
-    why: "描述空腔器官的里外用\"内 / 外\"；\"内侧 / 外侧\"是看离正中线的远近。" },
-  { q: "小脚趾在足的——", options: ["腓侧（外侧）", "胫侧（内侧）"], a: "腓侧（外侧）",
-    why: "小脚趾离正中线更远，在外侧。小腿的外侧是腓骨，所以叫腓侧。" },
+  { q: "In the anatomical position, which way do the palms face?", options: ["Forward", "Backward", "Toward the body", "It doesn't matter"], a: "Forward",
+    why: "In the anatomical position the arms hang at the sides with the palms facing forward, so the radius and ulna lie side by side." },
+  { q: "The nose is ___ to the eyes.", options: ["Medial", "Lateral"], a: "Medial",
+    why: "The nose sits on the midline, closer to it than the eyes, so it is medial to them." },
+  { q: "The wrist is ___ to the elbow.", options: ["Distal", "Proximal"], a: "Distal",
+    why: "The farther from the root of the limb (the shoulder), the more distal. The wrist is farther from the shoulder than the elbow is." },
+  { q: "The skin is ___ to the muscles.", options: ["Superficial", "Deep"], a: "Superficial",
+    why: "Closer to the body surface is superficial. The skin is on the outside, so it is superficial to the muscles." },
+  { q: "In the anatomical position, which side of the hand is the thumb on?", options: ["Lateral (radial)", "Medial (ulnar)"], a: "Lateral (radial)",
+    why: "With the palms facing forward, the thumb is farther from the midline — lateral, also called radial." },
+  { q: "Which plane divides the body into left and right parts?", options: ["Sagittal", "Coronal", "Transverse"], a: "Sagittal",
+    why: "A sagittal plane runs front to back and splits the body into left and right parts. The one exactly through the middle is the midsagittal (median) plane." },
+  { q: "Which plane divides the body into front and back parts?", options: ["Coronal", "Sagittal", "Transverse"], a: "Coronal",
+    why: "A coronal (frontal) plane runs side to side and splits the body into anterior and posterior parts." },
+  { q: "A CT scan shows the body as a stack of slices. Which plane are those slices usually in?", options: ["Transverse (axial)", "Sagittal", "Coronal"], a: "Transverse (axial)",
+    why: "CT usually scans across the body slice by slice, so the images are transverse — also called axial or horizontal." },
+  { q: "The sternum is ___ to the vertebral column.", options: ["Anterior", "Posterior"], a: "Anterior",
+    why: "The sternum is at the front of the chest and the vertebral column is at the back." },
+  { q: "In a picture of a person facing you, which side of the picture is their right shoulder on?", options: ["My left", "My right"], a: "My left",
+    why: "Left and right always mean the left and right of the person being described. When they face you, their right side is on your left." },
+  { q: "The heart is ___ to the diaphragm.", options: ["Superior", "Inferior"], a: "Superior",
+    why: "The diaphragm is the sheet of muscle between the chest and the abdomen. The heart is in the chest, above it." },
+  { q: "\"The endocardium is the innermost layer of the heart wall.\" Which pair of terms is this about?", options: ["Internal / External", "Medial / Lateral"], a: "Internal / External",
+    why: "For the inside and outside of hollow organs, use internal / external. Medial / lateral is about distance from the midline." },
+  { q: "The little toe is on the ___ side of the foot.", options: ["Fibular (lateral)", "Tibial (medial)"], a: "Fibular (lateral)",
+    why: "The little toe is farther from the midline, so it is lateral. The lateral bone of the leg is the fibula, so this side is called fibular." },
 ];
 
 /* ================= 示意图（本站自绘） ================= */
@@ -104,57 +112,57 @@ const QUESTIONS = [
   const svg = (inner, vb = `0 0 ${W} ${H}`, label = "") => `<svg class="fig-sil" viewBox="${vb}" role="img" aria-label="${label}">${inner}</svg>`;
 
   const FIG = {
-    pose: () => svg(sil(FRONT) + `<line class="guide" x1="130" y1="4" x2="130" y2="436"/>`, `0 0 ${W} ${H}`, "解剖学姿势示意图"),
-    updown: () => svg(sil(FRONT) + dbl(236, 24, 236, 416) + T(236, 16, "上") + T(236, 436, "下") +
-      T(214, 52, "Superior", 11, "end", "en2") + T(214, 406, "Inferior", 11, "end", "en2"), undefined, "上下示意图"),
-    antpost: () => svg(sil(SIDE) + dbl(34, 160, 226, 160) + T(34, 146, "后", 15, "start") + T(226, 146, "前", 15, "end") +
-      T(34, 184, "Posterior（背侧）", 11, "start", "en2") + T(226, 184, "Anterior（腹侧）", 11, "end", "en2") + T(250, 436, "侧面图 · 面朝右 →", 12, "end"), undefined, "前后示意图（侧面）"),
-    medlat: () => svg(sil(FRONT) + `<line class="guide" x1="130" y1="4" x2="130" y2="436"/>` + T(130, 438, "正中线", 12) +
-      one(138, 150, 246, 150) + one(122, 150, 14, 150) + T(246, 138, "外侧", 15, "end") + T(14, 138, "外侧", 15, "start") +
-      T(246, 170, "Lateral", 11, "end", "en2") + T(14, 170, "Lateral", 11, "start", "en2") +
-      T(130, 184, "内侧", 15) + T(130, 200, "Medial", 11, "middle", "en2"),
-      undefined, "内侧外侧示意图"),
+    pose: () => svg(sil(FRONT) + `<line class="guide" x1="130" y1="4" x2="130" y2="436"/>`, `0 0 ${W} ${H}`, "The anatomical position"),
+    updown: () => svg(sil(FRONT) + dbl(236, 26, 236, 414) + T(256, 16, "Superior", 14, "end") + T(256, 436, "Inferior", 14, "end"),
+      undefined, "Superior and inferior"),
+    antpost: () => svg(sil(SIDE) + dbl(34, 160, 226, 160) + T(30, 146, "Posterior", 14, "start") + T(230, 146, "Anterior", 14, "end") +
+      T(30, 182, "(dorsal)", 11, "start", "en2") + T(230, 182, "(ventral)", 11, "end", "en2") + T(250, 436, "Side view · facing right →", 12, "end"),
+      undefined, "Anterior and posterior, side view"),
+    medlat: () => svg(sil(FRONT) + `<line class="guide" x1="130" y1="4" x2="130" y2="424"/>` + T(130, 438, "Midline", 12) +
+      one(138, 150, 246, 150) + one(122, 150, 14, 150) + T(250, 138, "Lateral", 14, "end") + T(10, 138, "Lateral", 14, "start") +
+      T(130, 186, "Medial", 14), undefined, "Medial and lateral"),
     inout: () => svg(`<g class="e">${C(130, 200, 90)}</g><g class="f">${C(130, 200, 90)}</g>
       <circle cx="130" cy="200" r="55" fill="none" stroke="#e3a99a" stroke-width="7"/>
       <circle cx="130" cy="200" r="87" fill="none" stroke="#d9bf86" stroke-width="6"/>
       <circle cx="130" cy="200" r="51.5" fill="#fffdf8"/>` +
-      T(130, 190, "腔", 17) + T(130, 207, "Cavity", 11, "middle", "en2") + T(130, 100, "空腔器官的壁", 13) +
-      one(190, 236, 150, 236) + one(190, 236, 238, 236) + T(152, 256, "内", 16) + T(236, 256, "外", 16) +
-      T(130, 318, "内：靠近腔　外：远离腔", 13) +
-      T(130, 340, "例：心脏壁里层（粉）= 心内膜", 12) + T(130, 358, "外层（金）= 心外膜", 12),
-      `0 84 ${W} 284`, "内外示意图：空腔器官的横截面"),
+      T(130, 196, "Cavity", 15) + T(130, 100, "Wall of a hollow organ", 13) +
+      one(190, 236, 150, 236) + one(190, 236, 238, 236) + T(146, 256, "Internal", 13) + T(256, 256, "External", 13, "end") +
+      T(130, 318, "Internal = toward the cavity", 12) + T(130, 334, "External = away from the cavity", 12) +
+      T(130, 356, "e.g. the heart wall:", 11) + T(130, 371, "endocardium (pink) = internal layer", 11) + T(130, 386, "epicardium (gold) = external layer", 11),
+      `0 84 ${W} 312`, "Internal and external: cross-section of a hollow organ"),
     supdeep: () => svg(`<circle cx="130" cy="200" r="96" fill="#f2dcc8" stroke="#c9a88c" stroke-width="2"/>
       <circle cx="130" cy="200" r="88" fill="#f7ecd2"/><circle cx="130" cy="200" r="72" fill="#dfb3a6"/>
       <path d="M130,128 V178 M79,149 L114,184 M181,149 L146,184" stroke="#c99a8d" stroke-width="1.5" fill="none"/>
       <circle cx="130" cy="200" r="22" fill="#f3ebd9" stroke="#a39374" stroke-width="2"/><circle cx="130" cy="200" r="10" fill="#ecd3a9"/>
       <path d="M62,128 L72,141" stroke="#8a7a60" stroke-width="1.2"/>` +
-      one(148, 218, 226, 296) + T(250, 322, "由深到浅 →", 13, "end") +
-      T(130, 94, "皮肤（最浅）", 13) + T(14, 122, "皮下脂肪", 12, "start") + T(178, 205, "肌肉", 13) + T(130, 242, "骨（最深）", 12) +
-      T(14, 322, "大腿横截面", 12, "start"), `0 76 ${W} 256`, "浅深示意图：大腿横截面"),
+      one(148, 218, 226, 296) + T(252, 322, "Deep → superficial", 12, "end") +
+      T(130, 94, "Skin (most superficial)", 12) + T(8, 122, "Fat under the skin", 11, "start") + T(182, 205, "Muscle", 12) + T(130, 242, "Bone (deepest)", 11) +
+      T(8, 344, "Cross-section of the thigh", 11, "start"), `0 76 ${W} 278`, "Superficial and deep: cross-section of the thigh"),
     proxdist: () => svg(sil(FRONT) + one(82, 104, 54, 306) + one(148, 250, 154, 424) +
-      T(96, 100, "近侧", 13, "start") + T(40, 324, "远侧", 13, "start") + T(170, 262, "近侧", 13, "start") + T(170, 424, "远侧", 13, "start") +
-      T(96, 116, "Proximal", 10, "start", "en2") + T(40, 338, "Distal", 10, "start", "en2"), undefined, "近侧远侧示意图"),
+      T(96, 100, "Proximal", 12, "start") + T(30, 326, "Distal", 12, "start") + T(170, 262, "Proximal", 12, "start") + T(170, 426, "Distal", 12, "start"),
+      undefined, "Proximal and distal"),
     ulnrad: () => svg(sil(FOREARM) + bones(K(113, 26, 107, 252, 9, 19) + K(148, 22, 151, 252, 18, 9)) +
-      T(107, 120, "桡骨", 12) + T(150, 120, "尺骨", 12) +
-      one(92, 180, 22, 180) + one(168, 180, 238, 180) + T(24, 166, "桡侧", 16, "start") + T(236, 166, "尺侧", 16, "end") +
-      T(24, 200, "拇指侧", 12, "start") + T(236, 200, "小指侧", 12, "end") + T(130, 434, "人物的右前臂 · 手掌朝前", 12), undefined, "尺侧桡侧示意图"),
+      T(105, 120, "Radius", 11) + T(152, 120, "Ulna", 11) +
+      one(92, 180, 22, 180) + one(168, 180, 238, 180) + T(20, 166, "Radial", 15, "start") + T(240, 166, "Ulnar", 15, "end") +
+      T(20, 200, "thumb side", 11, "start") + T(240, 200, "little-finger", 11, "end") + T(240, 214, "side", 11, "end") +
+      T(130, 434, "Right forearm, palm facing forward", 12), undefined, "Ulnar and radial sides of the forearm"),
     tibfib: () => svg(sil(SHIN) + bones(K(140, 26, 141, 318, 28, 17) + E(146, 318, 6, 10) + K(104, 36, 109, 330, 9, 9) + E(108, 334, 6, 10)) +
-      T(140, 150, "胫骨", 12) + T(106, 190, "腓骨", 12) +
-      one(92, 240, 22, 240) + one(168, 240, 238, 240) + T(24, 226, "腓侧", 16, "start") + T(236, 226, "胫侧", 16, "end") +
-      T(24, 260, "外侧", 12, "start") + T(236, 260, "内侧", 12, "end") + T(130, 434, "人物的右小腿 · 正面", 12), undefined, "胫侧腓侧示意图"),
+      T(140, 150, "Tibia", 11) + T(106, 190, "Fibula", 11) +
+      one(92, 240, 22, 240) + one(168, 240, 238, 240) + T(20, 226, "Fibular", 15, "start") + T(240, 226, "Tibial", 15, "end") +
+      T(20, 260, "lateral", 11, "start") + T(240, 260, "medial", 11, "end") + T(130, 434, "Right leg, front view", 12), undefined, "Tibial and fibular sides of the leg"),
   };
 
   // 三个切面
   const PLANES = [
-    { name: "矢状面", en: "Sagittal Plane", text: "前后方向的竖切面，把身体分成<b>左、右</b>两部分。正好从正中间切开、分成左右对称两半的，叫<b>正中矢状面</b>。（图上的人面对着你，所以他的右半边在左边。）",
+    { name: "Sagittal plane", text: "A vertical plane running front to back. It divides the body into <b>left and right</b> parts. The one exactly through the middle, making two equal halves, is the <b>midsagittal (median) plane</b>. (The person is facing you, so their right half is on your left.)",
       fig: () => svg(sil(FRONT, [{ id: "pl-a", x: 0, y: 0, w: 130, h: H, cls: "a" }, { id: "pl-b", x: 130, y: 0, w: 130, h: H, cls: "b" }]) +
-        `<line class="cut" x1="130" y1="0" x2="130" y2="440"/>` + T(56, 40, "右", 18) + T(204, 40, "左", 18), undefined, "矢状面示意图") },
-    { name: "冠状面", en: "Coronal (Frontal) Plane", text: "左右方向的竖切面，把身体分成<b>前、后</b>两部分。也叫<b>额状面</b>，因为它和额头平行。",
+        `<line class="cut" x1="130" y1="0" x2="130" y2="440"/>` + T(62, 40, "Right", 16) + T(198, 40, "Left", 16), undefined, "Sagittal plane") },
+    { name: "Coronal plane", text: "A vertical plane running side to side. It divides the body into <b>anterior and posterior</b> (front and back) parts. It is also called the <b>frontal plane</b>, because it is parallel to the forehead.",
       fig: () => svg(sil(SIDE, [{ id: "pl-c", x: 0, y: 0, w: 127, h: H, cls: "b" }, { id: "pl-d", x: 127, y: 0, w: 133, h: H, cls: "a" }]) +
-        `<line class="cut" x1="127" y1="0" x2="127" y2="440"/>` + T(62, 40, "后", 18) + T(200, 40, "前", 18), undefined, "冠状面示意图") },
-    { name: "水平面", en: "Horizontal (Transverse) Plane", text: "和地面平行的横切面，把身体分成<b>上、下</b>两部分。也叫<b>横断面</b>，CT 图像大多就是这个方向。",
+        `<line class="cut" x1="127" y1="0" x2="127" y2="440"/>` + T(62, 40, "Posterior", 15) + T(198, 40, "Anterior", 15), undefined, "Coronal plane") },
+    { name: "Transverse plane", text: "A plane parallel to the ground. It divides the body into <b>superior and inferior</b> (upper and lower) parts. It is also called the horizontal or <b>axial</b> plane — most CT images are in this plane.",
       fig: () => svg(sil(FRONT, [{ id: "pl-e", x: 0, y: 0, w: W, h: 200, cls: "a" }, { id: "pl-f", x: 0, y: 200, w: W, h: 240, cls: "b" }]) +
-        `<line class="cut" x1="0" y1="200" x2="260" y2="200"/>` + T(222, 188, "上", 18) + T(222, 226, "下", 18), undefined, "水平面示意图") },
+        `<line class="cut" x1="0" y1="200" x2="260" y2="200"/>` + T(218, 188, "Superior", 15) + T(218, 226, "Inferior", 15), undefined, "Transverse plane") },
   ];
 
   /* ---------- 页面 ---------- */
@@ -169,20 +177,20 @@ const QUESTIONS = [
     chips.querySelectorAll(".chip").forEach((c) => c.classList.toggle("on", c.dataset.t === id));
     fig.innerHTML = FIG[id]();
     text.innerHTML = `
-      <h3>${AN.esc(t.name)} <span class="en">${AN.esc(t.en)}</span></h3>
+      <h3>${AN.esc(t.name)}</h3>
       ${t.also ? `<p style="color:var(--muted);font-size:.92rem">${AN.esc(t.also)}</p>` : ""}
-      <h4>意思</h4><p>${AN.esc(t.mean)}</p>
-      <h4>例子</h4><p>${AN.esc(t.eg)}</p>`;
+      <h4>Meaning</h4><p>${AN.esc(t.mean)}</p>
+      <h4>Example</h4><p>${AN.esc(t.eg)}</p>`;
   }
   chips.addEventListener("click", (e) => { const c = e.target.closest(".chip"); if (c) show(c.dataset.t); });
   show(TERMS[0].id);
 
   document.getElementById("plane-cards").innerHTML = PLANES.map((p) => `
-    <div class="card">${p.fig()}<h3>${p.name} <span class="en">${p.en}</span></h3><p>${p.text}</p></div>`).join("");
+    <div class="card">${p.fig()}<h3>${p.name}</h3><p>${p.text}</p></div>`).join("");
 
   document.getElementById("term-table").innerHTML = `
-    <tr><th>术语</th><th>英文</th><th>意思</th><th>例子</th></tr>
-    ${TERMS.map((t) => `<tr><td><b>${AN.esc(t.name)}</b></td><td>${AN.esc(t.en)}</td><td>${AN.esc(t.mean)}</td><td>${AN.esc(t.eg)}</td></tr>`).join("")}`;
+    <tr><th>Terms</th><th>Meaning</th><th>Example</th></tr>
+    ${TERMS.map((t) => `<tr><td><b>${AN.esc(t.name)}</b></td><td>${AN.esc(t.mean)}</td><td>${AN.esc(t.eg)}</td></tr>`).join("")}`;
 
-  AN.quiz(document.getElementById("quiz"), () => AN.shuffle(QUESTIONS).slice(0, 10), { href: "#terms", text: "复习术语 Review" });
+  AN.quiz(document.getElementById("quiz"), () => AN.shuffle(QUESTIONS).slice(0, 10), { href: "#terms", text: "Review the terms" });
 })();
