@@ -1,5 +1,5 @@
-// 学习路线：想改某个阶段的内容，改下面 STAGES 里对应的一项
-// 新做好一个阶段的页面后，把 href 填上页面文件名，卡片就会出现 "Start" 按钮
+// Roadmap: to change a stage, edit its entry in STAGES below
+// Once a stage has its own page, set href to the page's file name and the card gets a "Start" button
 const STAGES = [
   { n: 0, title: "Anatomical Terms", href: "terms.html",
     learn: "The anatomical position; superior / inferior, anterior / posterior, medial / lateral, proximal / distal; the three planes",

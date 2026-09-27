@@ -1,8 +1,8 @@
-// Stage 1 · Bones（第 1 阶段 · 骨骼）
-// 想改骨头的说明文字：改下面 BONES 里对应的一项
-// { id, name: 名称, tag: 图上标签(短), group: 分类, count: 数量, short: 一句话,
-//   desc: 在哪/长什么样, feel: 在身上怎么摸到(可不写), tip: 小知识(可不写),
-//   link: 别的骨头说明里出现这些词时，变成可以点的链接（正则，可不写）, zoom: 小测验放大的区域(可不写) }
+// Stage 1 · Bones
+// To change the text for a bone, edit its entry in BONES below
+// { id, name, tag: short label on the picture, group, count, short: one-line summary,
+//   desc: where it is / what it looks like, feel: how to find it on your body (optional), tip: fun fact (optional),
+//   link: words that become clickable links to this bone in other bones' text (regex, optional), zoom: area to zoom into for the quiz (optional) }
 const BONES = [
   // ---------- Skull ----------
   { id: "skull", name: "Skull", tag: "Skull", group: "Skull", count: "22 bones", zoom: "head", link: "skull",
@@ -138,9 +138,9 @@ const BONES = [
     tip: "One foot has 26 bones: 7 tarsals + 5 metatarsals + 14 phalanges. Hands and feet together have 106 bones — more than half of the whole skeleton!" },
 ];
 
-// 放大某块骨时，在图上标出的部位
-// [标签, x, y, 标签往右挪多少, 标签往下挪多少, 说明文字里要对应高亮的词（正则，可不写，默认就是标签）]
-// 坐标用骨骼图的坐标（左右成对的骨，用图上左边那一块）；挪动距离的单位约等于屏幕上的像素
+// Parts marked on the picture when a bone is zoomed in
+// [label, x, y, label offset to the right, label offset down, words to highlight in the description (regex, optional — defaults to the label)]
+// x and y are skeleton coordinates (for paired bones, use the one on the left of the picture); offsets are roughly in screen pixels
 const MARKS = {
   skull: [["Frontal bone", 150, 28, 44, -10, "frontal bone"], ["Orbit", 137, 56, -46, -8], ["Temporal bone", 183, 58, 36, 8, "temporal bones"],
     ["Zygomatic bone", 123, 70, -44, 14, "zygomatic bones|cheekbones"], ["Maxilla", 143, 82, -44, 30]],
@@ -179,7 +179,7 @@ const MARKS = {
   "phalanges-f": [["Big toe: 2 bones", 140.5, 658, 36, 2, "big toe"], ["Little toe", 108, 651, -36, 6, "little toe"]],
 };
 
-// Find them on your body：想加新条目，照格式加一行 ["名称", "怎么找", "骨头 id/图上标的部位"]
+// Find them on your body: add a line in the format ["name", "how to find it", "bone id/marked part"]
 const LANDMARKS = [
   { icon: "🙂", title: "Head, neck & trunk", items: [
     ["External occipital protuberance", "The most prominent point in the middle of the back of your head, just above the hairline.", "skull"],
@@ -208,9 +208,9 @@ const LANDMARKS = [
   ]},
 ];
 
-/* ================= 骨骼图（本站自绘的简化示意图） =================
-   坐标系：宽 300、高 675，人体中线 x = 150。
-   只画图上左边这一侧（人物的右侧），再镜像到另一侧。 */
+/* ================= Skeleton (an original simplified drawing) =================
+   Coordinates: 300 wide, 675 tall, midline at x = 150.
+   Only the left side of the picture (the person's right side) is drawn; it is mirrored for the other side. */
 const SK_W = 300, SK_H = 675;
 const SK_ZOOM = {
   head: "92 0 116 150",
@@ -222,7 +222,7 @@ const SK_ZOOM = {
 
 (function () {
   const f = (n) => Math.round(n * 10) / 10;
-  // 基本形状：C 圆、E 椭圆、R 圆角矩形、K 两头圆的\"骨棒\"、P 任意路径、S 描边线条
+  // Basic shapes: C circle, E ellipse, R rounded rectangle, K rod with round ends, P any path, S stroked line
   const C = (cx, cy, r) => `<circle cx="${cx}" cy="${cy}" r="${r}"/>`;
   const E = (cx, cy, rx, ry, rot = 0) => `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"${rot ? ` transform="rotate(${rot} ${cx} ${cy})"` : ""}/>`;
   const R = (x, y, w, h, r) => `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="${r}"/>`;
@@ -233,7 +233,7 @@ const SK_ZOOM = {
     const a = w1 / 2, b = w2 / 2;
     return `<path d="M${f(x1 + nx * a)},${f(y1 + ny * a)} L${f(x2 + nx * b)},${f(y2 + ny * b)} L${f(x2 - nx * b)},${f(y2 - ny * b)} L${f(x1 - nx * a)},${f(y1 - ny * a)} Z"/>` + C(x1, y1, f(a)) + C(x2, y2, f(b));
   }
-  // 一串首尾相接、中间留一点关节缝的小骨棒（指骨、趾骨用）
+  // A chain of short rods with small joint gaps between them (for finger and toe bones)
   function chain(pts, w, gap = 1.3) {
     let out = "";
     for (let i = 0; i < pts.length - 1; i++) {
@@ -245,10 +245,10 @@ const SK_ZOOM = {
     return out;
   }
 
-  // 每块骨：[形状列表]；S 描边线条用 {s: 路径, w: 粗细, cls}
+  // Each bone: [list of shapes]; stroked lines use {s: path, w: width, cls}
   const MID = {}, SIDE = {};
 
-  // ---- 颅骨 ----
+  // ---- Skull ----
   MID.skull = {
     body: [P("M150,12 C173,12 185,28 185,50 C185,61 182,69 178,75 L173,80 C169,86 162,89 150,89 C138,89 131,86 127,80 L122,75 C118,69 115,61 115,50 C115,28 127,12 150,12 Z")],
     detail: `<ellipse class="hole" cx="137" cy="56" rx="9.5" ry="8.5"/><ellipse class="hole" cx="163" cy="56" rx="9.5" ry="8.5"/>
@@ -260,7 +260,7 @@ const SK_ZOOM = {
     detail: `<path class="ln" d="M137,92.5 H163 M141,90 V95 M145.5,90 V95.5 M150,90 V96 M154.5,90 V95.5 M159,90 V95"/>`,
   };
 
-  // ---- 脊柱 ----
+  // ---- Vertebral column ----
   MID.cervical = { body: [0, 1, 2, 3, 4, 5, 6].map((i) => R(141 - i * 0.3, 92 + i * 6.3, 18 + i * 0.6, 5.2, 2)) };
   MID.thoracic = { body: Array.from({ length: 12 }, (_, i) => R(139 - i * 0.2, 134 + i * 9.4, 22 + i * 0.4, 8, 2.5)) };
   MID.lumbar = {
@@ -276,7 +276,7 @@ const SK_ZOOM = {
   };
   MID.coccyx = { body: [R(145.5, 353.5, 9, 3.6, 1.5), R(146.5, 358, 7, 3, 1.3), R(147.5, 361.8, 5, 2.6, 1.2)] };
 
-  // ---- 胸骨 ----
+  // ---- Sternum ----
   MID.sternum = {
     body: [
       P("M137,150 Q150,155 163,150 L161,158 L157,169 L143,169 L139,158 Z"),
@@ -285,32 +285,32 @@ const SK_ZOOM = {
     ],
   };
 
-  // ---- 肩胛骨（在身体后面） ----
+  // ---- Scapula (behind the rib cage) ----
   SIDE.scapula = {
     body: [P("M91,140 C101,137 112,140 122,147 L129,151 C129,175 125,200 115,225 C109,208 101,186 97,168 C92,165 89,160 90,155 C87,150 87,144 91,140 Z")],
     detail: `<path class="ln" d="M96,150 C104,150 112,152 124,160"/>`,
   };
 
-  // ---- 肋骨：远处（后半段）颜色深一点，近处（前半段）连着肋软骨 ----
+  // ---- Ribs: the far (back) half is a little darker; the near (front) half joins the costal cartilage ----
   (function () {
     const hw = [21, 32, 40, 46, 50, 53, 55, 55, 54, 51, 46, 36];
     const sternalY = [156, 170, 180, 190, 199, 208, 217];
     const far = [], near = [], cart = [];
     for (let i = 0; i < 12; i++) {
-      const ys = 138 + i * 9.4;          // 后端（连胸椎）
-      const xl = 150 - hw[i], yl = ys + 13;  // 最外侧
+      const ys = 138 + i * 9.4;          // back end (joins a thoracic vertebra)
+      const xl = 150 - hw[i], yl = ys + 13;  // outermost point
       far.push({ s: `M138,${f(ys)} C${f(138 - hw[i] * 0.45)},${f(ys - 4)} ${xl},${f(yl - hw[i] * 0.4)} ${xl},${f(yl)}`, w: i < 1 ? 4 : 4.6 });
-      if (i < 7) { // 真肋：前端连胸骨
+      if (i < 7) { // true ribs: front end joins the sternum
         const ya = sternalY[i];
         const xe = 150 - 13 - Math.min(i, 4) * 2.5;
         near.push({ s: `M${xl},${f(yl)} C${xl},${f(yl + hw[i] * 0.35)} ${f(xl + hw[i] * 0.45)},${f(ya + 2)} ${f(xe)},${f(ya)}`, w: i < 1 ? 4 : 4.6 });
         cart.push({ s: `M${f(xe)},${f(ya)} L142,${f(ya - 0.5)}`, w: 4 });
-      } else if (i < 10) { // 第 8～10 肋：软骨连到上一根
+      } else if (i < 10) { // ribs 8–10: cartilage joins the rib above
         const end = [[118, 238], [112, 250], [107, 260]][i - 7];
         near.push({ s: `M${xl},${f(yl)} C${xl},${f(yl + 14)} ${f(end[0] - 6)},${f(end[1] + 2)} ${end[0]},${end[1]}`, w: 4.4 });
         const to = [[140, 222], [120, 236], [114, 248]][i - 7];
         cart.push({ s: `M${end[0]},${end[1]} C${f((end[0] + to[0]) / 2)},${f(end[1] - 2)} ${f(to[0] - 3)},${f(to[1] + 4)} ${to[0]},${to[1]}`, w: 3.6 });
-      } else { // 浮肋：前端游离
+      } else { // floating ribs: front end is free
         const end = [[103, 262], [116, 262]][i - 10];
         near.push({ s: `M${xl},${f(yl)} C${xl},${f(yl + 8)} ${f(end[0] - 2)},${f(end[1] - 4)} ${end[0]},${end[1]}`, w: 4 });
       }
@@ -320,7 +320,7 @@ const SK_ZOOM = {
 
   SIDE.clavicle = { layers: [{ shapes: [{ s: "M141,151 C130,156 118,146 107,146 C100,146 95,143 90,141", w: 6.5 }] }] };
 
-  // ---- 上肢 ----
+  // ---- Upper limb ----
   SIDE.humerus = {
     body: [C(94, 159, 9.5), K(91, 166, 80, 258, 11, 9.5), P("M76,254 C73,259 68,262 66,266 C66,271 70,276 74,278 C79,280 85,280 90,278 C94,275 96,269 95,264 C93,259 88,256 86,252 Z")],
   };
@@ -343,7 +343,7 @@ const SK_ZOOM = {
     ],
   };
 
-  // ---- 下肢 ----
+  // ---- Lower limb ----
   SIDE.hip = {
     body: [P("M139,304 C126,296 104,295 93,303 C89,307 91,315 96,320 C103,327 109,335 111,344 C112,353 115,362 119,371 C123,380 131,383 135,379 C139,374 143,371 148,371 L148,362 C143,360 137,356 135,351 C134,343 136,332 140,320 Z")],
     detail: `<ellipse class="hole" cx="131" cy="364" rx="5.5" ry="7" transform="rotate(-15 131 364)"/><path class="ln" d="M104,306 C112,312 120,322 126,336"/>`,
@@ -375,7 +375,7 @@ const SK_ZOOM = {
     ],
   };
 
-  // 画的先后顺序（后画的盖在上面）
+  // Drawing order (later bones are drawn on top)
   const ORDER = ["scapula", "cervical", "thoracic", "lumbar", "sacrum", "coccyx", "hip", "ribs", "sternum", "clavicle",
     "mandible", "skull", "humerus", "ulna", "radius", "carpals", "metacarpals", "phalanges-h",
     "tarsals", "fibula", "tibia", "femur", "patella", "metatarsals", "phalanges-f"];
@@ -397,13 +397,13 @@ const SK_ZOOM = {
   }
   const BODY = ORDER.map((id) => MID[id] ? groupHTML(id, MID[id]) : groupHTML(id, SIDE[id]) + groupHTML(id, SIDE[id], true)).join("");
 
-  // 生成骨骼图。opt.sel 选中的骨；opt.zoom 放大区域
+  // Builds the skeleton SVG. opt.sel: a bone is selected; opt.zoom: area to zoom into
   window.skeletonSVG = function (opt = {}) {
     const vb = opt.zoom && SK_ZOOM[opt.zoom] ? SK_ZOOM[opt.zoom] : `0 0 ${SK_W} ${SK_H}`;
     return `<svg class="sk${opt.sel ? " sel" : ""}${opt.zoom ? " z-" + opt.zoom : ""}${opt.cls ? " " + opt.cls : ""}" viewBox="${vb}" role="img" aria-label="${opt.label || "Front view of the human skeleton"}">
       ${BODY}<g class="top"></g></svg>`;
   };
-  // 把某块骨高亮，并复制一份放到最上层，这样被挡住的骨也能看清
+  // Highlights a bone and puts a copy on top, so bones hidden behind others can still be seen
   window.skeletonSelect = function (svg, id) {
     const top = svg.querySelector(".top");
     top.innerHTML = "";
@@ -419,14 +419,14 @@ const SK_ZOOM = {
   };
 })();
 
-/* ================= 页面交互 ================= */
+/* ================= Page behaviour ================= */
 (function () {
   const byId = Object.fromEntries(BONES.map((b) => [b.id, b]));
   const GROUPS = ["Skull", "Trunk", "Upper limb", "Lower limb"];
   const reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   const reEsc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-  // 图上的名称标签：[骨头 id, 指向的 x, 指向的 y, 标签的 y]。左边一列指向人物右侧那块骨，右边一列指向中线的骨
+  // Name labels on the picture: [bone id, x and y the line points to, y of the label]. The left column points to bones on the person's right side, the right column to midline bones
   const ATLAS_L = [["clavicle", 112, 147, 147], ["scapula", 99, 182, 172], ["humerus", 84, 215, 215], ["hip", 97, 306, 262],
     ["ulna", 81, 318, 296], ["radius", 65, 330, 322], ["carpals", 62, 382, 378], ["metacarpals", 62, 405, 403], ["phalanges-h", 60, 432, 430],
     ["femur", 118, 470, 462], ["patella", 123, 497, 497], ["fibula", 113, 550, 540], ["tibia", 128, 566, 566],
@@ -460,7 +460,7 @@ const SK_ZOOM = {
     let cur = null, zoomed = false, labelsOn = window.innerWidth > 760, anim = 0, pending = null;
     let vb = [0, 0, SK_W, SK_H];
 
-    // ---- 缩放 ----
+    // ---- Zooming ----
     const fullRect = () => (labelsOn ? [-MARGIN, 0, SK_W + 2 * MARGIN, SK_H] : [0, 0, SK_W, SK_H]);
     function boneRect(id) {
       const g = svg.querySelector(`.b[data-bone="${id}"]:not([transform])`);
@@ -469,7 +469,7 @@ const SK_ZOOM = {
       let [x, y, w, h] = [bb.x - p, bb.y - p, bb.width + 2 * p, bb.height + 2 * p];
       if (w < 64) { x -= (64 - w) / 2; w = 64; }
       const W = svg.clientWidth || 300, H = svg.clientHeight || 600;
-      // 部位标签的文字也要框进来，免得被裁掉。标签大小跟缩放比例 u（每像素多少单位）有关，所以反复算到稳定为止
+      // Make room for the part labels too so they aren't cut off. Their size depends on the zoom (u = units per screen pixel), so repeat until it settles
       const need = (u) => {
         let [x0, y0, x1, y1] = [x, y, x + w, y + h];
         (MARKS[id] || []).forEach(([name, mx, my, dx, dy]) => {
@@ -513,7 +513,7 @@ const SK_ZOOM = {
       anim = requestAnimationFrame(step);
     }
 
-    // ---- 图上标出的部位 ----
+    // ---- Parts marked on the picture ----
     function drawMarks() {
       const u = parseFloat(svg.style.getPropertyValue("--u")) || 1;
       marksG.innerHTML = (MARKS[cur] || []).map(([name, x, y, dx, dy], i) => {
@@ -525,7 +525,7 @@ const SK_ZOOM = {
           <circle class="ring" cx="${x}" cy="${y}" r="${(4 * u).toFixed(2)}"/><circle class="dot" cx="${x}" cy="${y}" r="${(3.4 * u).toFixed(2)}"/>
           <text x="${lx.toFixed(2)}" y="${ly.toFixed(2)}" text-anchor="${anchor}">${AN.esc(name)}</text></g>`;
       }).join("");
-      // 手机屏幕窄，放不下的标签往里挪，别被裁掉
+      // On narrow phone screens, nudge labels that don't fit back inside the picture
       const pad = 4 * u, [vx, vy, vw, vh] = vb;
       marksG.querySelectorAll("text").forEach((t) => {
         const bb = t.getBBox();
@@ -553,7 +553,7 @@ const SK_ZOOM = {
       clearTimeout(ping.t); ping.t = setTimeout(() => hot(null), 1600);
     }
 
-    // ---- 说明文字：部位名可以指到图上，别的骨头名可以点过去 ----
+    // ---- Description text: part names point to the picture, other bone names link to those bones ----
     function linkify(text, b) {
       const parts = [];
       (MARKS[b.id] || []).forEach((m, i) => parts.push({ src: m[5] || reEsc(m[0]), mk: i }));
@@ -623,7 +623,7 @@ const SK_ZOOM = {
     let rt;
     window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => go(zoomed && cur ? boneRect(cur) : fullRect(), true), 150); });
 
-    // 给"摸一摸"清单用：跳到骨骼图并指出某个部位
+    // Used by the "Find them on your body" checklist: jump to the skeleton and point out a part
     window.showOnSkeleton = function (ref) {
       const [id, mark] = ref.split("/");
       document.getElementById("explore").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
@@ -638,7 +638,7 @@ const SK_ZOOM = {
     render();
   }
 
-  // ---- Find them on your body（勾选会保存在自己的浏览器里） ----
+  // ---- Find them on your body (ticks are saved in the visitor's own browser) ----
   const lm = document.getElementById("lm-list");
   if (lm) {
     const store = AN.store("anatomy-landmarks-en-v1");
@@ -681,7 +681,7 @@ const SK_ZOOM = {
     update();
   }
 
-  // ---- Quiz · Name that bone：随机抽 10 块骨，干扰项尽量选同一类的 ----
+  // ---- Quiz · Name that bone: 10 random bones; wrong options come from the same body region where possible ----
   const qbox = document.getElementById("quiz");
   if (qbox) {
     AN.quiz(qbox, () => AN.shuffle(BONES).slice(0, 10).map((b) => {
@@ -698,7 +698,7 @@ const SK_ZOOM = {
       };
     }), { href: "#explore", text: "Back to the skeleton" });
 
-    // 题目换页时，把高亮画上去
+    // Draw the highlight whenever a new question appears
     new MutationObserver(() => {
       const v = qbox.querySelector(".q-sk");
       if (v && !v.dataset.done) { v.dataset.done = 1; skeletonSelect(v.querySelector("svg"), v.dataset.bone); }

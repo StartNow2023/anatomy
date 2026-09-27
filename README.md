@@ -1,66 +1,66 @@
-# 解剖学习笔记 · Anatomy Notes
+# Anatomy Notes
 
-我的人体解剖学习网站，**网站内容全部是英文**。按《系统解剖学》的顺序分 8 个阶段学，每个阶段一个页面，每页配一个小测验。
-纯静态网页（HTML + CSS + JS），不需要安装任何东西，直接用 GitHub Pages 发布。（这份说明和代码注释是中文的，方便自己改内容。）
+My website for learning human anatomy. It follows the order of a systematic anatomy textbook in 8 stages: one page per stage, each with a short quiz.
+It is a plain static site (HTML + CSS + JavaScript). There is nothing to install; it is published with GitHub Pages.
 
-网址（开启 Pages 后）：**https://startnow2023.github.io/anatomy/**
+Live site (once Pages is turned on): **https://startnow2023.github.io/anatomy/**
 
 ---
 
-## 一、网站里有什么
+## 1. What's on the site
 
-| 页面 | 内容 |
+| Page | Contents |
 | --- | --- |
-| `index.html` Roadmap 学习路线 | 8 个阶段的卡片：学什么、过关标准，可以打勾记录进度 |
-| `terms.html` Stage 0 · Terms 方位术语 | 解剖学姿势、8 对方位术语（带示意图）、三个切面、速查表、小测验 |
-| `bones.html` Stage 1 · Bones 骨骼 | 可点击、会自动放大的全身骨骼图（图上有名称标签，放大后标出各个部位，说明文字里的词和图上的点一一对应）、206 块骨怎么数、骨的形状、"Find them on your body"清单（每条都能"Show me"跳到图上）、看图认骨小测验 |
+| `index.html` · Roadmap | Cards for the 8 stages — what you'll learn and how you know you've got it — with ticks to track your progress |
+| `terms.html` · Stage 0: Terms | The anatomical position, 8 pairs of directional terms (with diagrams), the three planes, a cheat sheet and a quiz |
+| `bones.html` · Stage 1: Bones | A clickable skeleton that zooms in on the bone you pick (name labels on the whole-body view; once zoomed, each bone's parts are marked, and the matching words in the text point to them), how the 206 bones add up, the four shapes of bone, a "Find them on your body" checklist (every item has a **Show me** button that jumps to it on the skeleton) and a name-that-bone quiz |
 
-第 2～7 阶段（关节、肌肉、内脏、脉管、感觉器、神经）还没做。
+Stages 2–7 (joints, muscles, internal organs, heart and vessels, sense organs, nervous system) are not built yet.
 
-## 二、怎么开启 GitHub Pages（只需做一次）
+## 2. Turning on GitHub Pages (one time only)
 
-1. 进入仓库页面 → 顶部 **Settings**（设置）
-2. 左侧菜单点 **Pages**
-3. 在 **Build and deployment** 下：
-   - Source 选 **Deploy from a branch**
-   - Branch 选 **main**，文件夹选 **/ (root)**，点 **Save**
-4. 等 1～3 分钟，页面顶部会显示网址：**https://startnow2023.github.io/anatomy/**
+1. Open the repository → **Settings** at the top
+2. Click **Pages** in the left menu
+3. Under **Build and deployment**:
+   - Source: **Deploy from a branch**
+   - Branch: **main**, folder **/ (root)**, then **Save**
+4. Wait 1–3 minutes and the address appears at the top of the page: **https://startnow2023.github.io/anatomy/**
 
-> 仓库需要是 Public（公开）才能免费使用 Pages。
+> The repository has to be public to use Pages for free.
 
-## 三、内容在哪里改
+## 3. Where to edit the content
 
-| 想改什么 | 改哪个文件 |
+| What you want to change | Where it lives |
 | --- | --- |
-| 8 个阶段的说明 | `js/roadmap.js` 顶部的 `STAGES` |
-| 方位术语说明 | `js/terms.js` 顶部的 `TERMS` |
-| 方位术语小测验题目 | `js/terms.js` 顶部的 `QUESTIONS` |
-| 每块骨头的说明 | `js/bones.js` 顶部的 `BONES` |
-| 放大后图上标出的部位（位置、标签、和说明文字里哪个词对应） | `js/bones.js` 里的 `MARKS` |
-| "Find them on your body"清单，以及每条的"Show me"指向哪里 | `js/bones.js` 里的 `LANDMARKS` |
-| 全身图上的名称标签 | `js/bones.js` 里的 `ATLAS_L`、`ATLAS_R` |
-| 颜色、字体等样式 | `css/style.css` 最上面的 `:root` |
+| The 8 stages on the roadmap | `STAGES` at the top of `js/roadmap.js` |
+| Directional term explanations | `TERMS` at the top of `js/terms.js` |
+| Terms quiz questions | `QUESTIONS` at the top of `js/terms.js` |
+| The description of each bone | `BONES` at the top of `js/bones.js` |
+| The parts marked on a zoomed bone (position, label, and which words in the text they match) | `MARKS` in `js/bones.js` |
+| The "Find them on your body" checklist and where each **Show me** points | `LANDMARKS` in `js/bones.js` |
+| Name labels on the whole-body skeleton | `ATLAS_L` and `ATLAS_R` in `js/bones.js` |
+| Colours and fonts | `:root` at the top of `css/style.css` |
 
-## 四、以后怎么加新阶段（比如第 2 阶段"关节"）
+## 4. Adding a new stage (for example Stage 2: Joints)
 
-1. 照着 `bones.html` 复制一个新页面，比如 `joints.html`，改掉标题和内容
-2. 在 `js/roadmap.js` 的 `STAGES` 里，给 "Joints" 那一项加上 `href: "joints.html"`，路线页就会出现 "Start" 按钮
-3. 在每个页面顶部的导航里加一行 `<a href="joints.html">2 · Joints</a>`
+1. Copy `bones.html` to a new page such as `joints.html` and replace the title and content
+2. In `STAGES` in `js/roadmap.js`, add `href: "joints.html"` to the Joints entry — a **Start** button appears on the roadmap
+3. Add `<a href="joints.html">2 · Joints</a>` to the navigation at the top of every page
 
-## 五、版权和合规
+## 5. Copyright and good practice
 
-- 骨骼图、人形图都是用代码自己画的简化示意图，文字是自己整理的笔记，小测验的题目是自己出的。
-- 以后加图：只用自己画的，或者 OpenStax、Wikimedia Commons 等注明可以使用的图，并在图下写上出处。**不要**直接用教材、图谱、App 或其他网站的图。
-- 加题目：自己出题。**不要**照搬教材课后题、题库 App 或考试真题。
-- 每页底部都有声明：For learning only — not medical advice（仅供学习参考，不构成医疗建议）。
-- 打勾进度只保存在访问者自己的浏览器里，网站不收集任何个人信息。
+- The skeleton and body diagrams are simplified drawings made in code for this site; the text is my own study notes and the quiz questions are written from scratch.
+- Adding pictures: only use your own drawings, or openly licensed images (OpenStax, Wikimedia Commons, etc.) with the source credited under the image. **Don't** copy pictures from textbooks, atlases, apps or other websites.
+- Adding questions: write your own. **Don't** copy end-of-chapter questions, question-bank apps or real exam papers.
+- Every page ends with a note: "For learning only — not medical advice."
+- Ticks are saved only in each visitor's own browser; the site does not collect any personal information.
 
-## 六、在自己电脑上预览（可选）
+## 6. Previewing on your own computer (optional)
 
-直接双击打开 `index.html` 就能看。也可以在文件夹里运行：
+Just double-click `index.html` to open it. Or run this in the folder:
 
 ```
 python3 -m http.server
 ```
 
-然后浏览器打开 http://localhost:8000 。
+and open http://localhost:8000 in your browser.

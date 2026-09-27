@@ -1,6 +1,6 @@
-// Stage 0 · Anatomical Terms（第 0 阶段 · 方位术语）
-// 想改术语说明：改下面 TERMS 里对应的一项
-// { id, name: 名称, also: 别名(可不写), mean: 意思, eg: 例子 }
+// Stage 0 · Anatomical Terms
+// To change a term, edit its entry in TERMS below
+// { id, name, also: other names (optional), mean: meaning, eg: example }
 const TERMS = [
   { id: "updown", name: "Superior / Inferior", also: "Also called cranial / caudal",
     mean: "Closer to the head is superior; closer to the feet is inferior.",
@@ -28,7 +28,7 @@ const TERMS = [
     eg: "The big toe is on the tibial side of the foot; the little toe is on the fibular side." },
 ];
 
-// 小测验题目：想加新题，照格式加一项即可（options 的顺序会自动打乱）
+// Quiz questions: add a new one in the same format (the options are shuffled automatically)
 const QUESTIONS = [
   { q: "In the anatomical position, which way do the palms face?", options: ["Forward", "Backward", "Toward the body", "It doesn't matter"], a: "Forward",
     why: "In the anatomical position the arms hang at the sides with the palms facing forward, so the radius and ulna lie side by side." },
@@ -58,7 +58,7 @@ const QUESTIONS = [
     why: "The little toe is farther from the midline, so it is lateral. The lateral bone of the leg is the fibula, so this side is called fibular." },
 ];
 
-/* ================= 示意图（本站自绘） ================= */
+/* ================= Diagrams (original drawings) ================= */
 (function () {
   const W = 260, H = 440;
   const C = (cx, cy, r) => `<circle cx="${cx}" cy="${cy}" r="${r}"/>`;
@@ -72,34 +72,34 @@ const QUESTIONS = [
   }
   const mirror = (s) => `<g transform="matrix(-1 0 0 1 ${W} 0)">${s}</g>`;
 
-  // 正面人形（手掌朝前、拇指朝外）
+  // Body from the front (palms forward, thumbs out)
   const halfFront = E(84, 104, 14, 13) + K(83, 108, 72, 190, 19, 14) + K(72, 190, 62, 270, 14, 11) +
     E(59, 290, 10, 19, 6) + K(53, 276, 45, 293, 6.5, 5.5) + K(117, 244, 112, 338, 30, 20) + K(112, 338, 111, 408, 20, 12) + E(108, 418, 12, 10);
   const FRONT = E(130, 42, 22, 27) + K(130, 64, 130, 84, 17, 19) +
     P("M100,86 C112,80 148,80 160,86 C172,90 177,98 176,110 L170,152 C165,172 157,184 155,196 C159,210 164,222 164,236 L160,254 L100,254 L96,236 C96,222 101,210 105,196 C103,184 95,172 90,152 L84,110 C83,98 88,90 100,86 Z") +
     halfFront + mirror(halfFront);
-  // 侧面人形（面朝右）
+  // Body from the side (facing right)
   const SIDE = E(131, 42, 23, 27) + P("M150,34 L163,50 L151,53 Z") + K(126, 64, 124, 86, 17, 19) +
     P("M108,86 L144,86 C152,98 155,122 151,142 C147,162 149,182 151,198 C155,216 153,234 146,252 L106,252 C99,236 97,216 102,198 C106,178 104,152 104,132 C104,112 104,96 108,86 Z") +
     K(126, 98, 126, 190, 20, 15) + K(126, 190, 129, 270, 15, 11) + E(131, 290, 8, 19) +
     K(126, 238, 128, 340, 38, 22) + K(128, 340, 124, 408, 22, 13) + E(138, 420, 22, 8);
 
-  // 右前臂和手（手掌朝前：拇指在图的左边）
+  // Right forearm and hand (palm forward, so the thumb is on the left of the picture)
   const FOREARM = K(130, 14, 128, 262, 72, 58) + E(128, 302, 40, 46) + K(94, 290, 68, 338, 18, 15) +
     K(107, 330, 104, 392, 15, 13) + K(124, 334, 124, 402, 15, 13) + K(141, 332, 144, 394, 14, 12) + K(157, 322, 162, 374, 12, 11);
-  // 右小腿和脚（正面：大脚趾在图的右边，靠近身体正中线）
+  // Right leg and foot, front view (the big toe is on the right of the picture, toward the midline)
   const SHIN = K(128, 14, 130, 322, 72, 40) + E(132, 356, 44, 26) +
     C(164, 380, 10) + C(146, 385, 7.5) + C(130, 387, 7) + C(115, 385, 6.5) + C(101, 380, 6);
   const bones = (s) => `<g class="bn-e">${s}</g><g class="bn-f">${s}</g>`;
 
   function sil(body, clip) {
-    // clip = [{ id, x, y, w, h, cls }]：把人形分块染色（切面图用）
+    // clip = [{ id, x, y, w, h, cls }]: tints parts of the body in different colours (for the plane diagrams)
     if (!clip) return `<g class="e">${body}</g><g class="f">${body}</g>`;
     return `<defs>${clip.map((c) => `<clipPath id="${c.id}"><rect x="${c.x}" y="${c.y}" width="${c.w}" height="${c.h}"/></clipPath>`).join("")}</defs>
       <g class="e">${body}</g>${clip.map((c) => `<g class="f ${c.cls}" clip-path="url(#${c.id})">${body}</g>`).join("")}`;
   }
   const arrowHead = (x, y, ang) => `<path class="ah" d="M0,0 L-11,-6 L-11,6 Z" transform="translate(${x} ${y}) rotate(${ang})"/>`;
-  // 双向箭头
+  // Double-headed arrow
   function dbl(x1, y1, x2, y2) {
     const ang = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
     return `<line class="arrow" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>` + arrowHead(x2, y2, ang) + arrowHead(x1, y1, ang + 180);
@@ -152,7 +152,7 @@ const QUESTIONS = [
       T(20, 260, "lateral", 11, "start") + T(240, 260, "medial", 11, "end") + T(130, 434, "Right leg, front view", 12), undefined, "Tibial and fibular sides of the leg"),
   };
 
-  // 三个切面
+  // The three planes
   const PLANES = [
     { name: "Sagittal plane", text: "A vertical plane running front to back. It divides the body into <b>left and right</b> parts. The one exactly through the middle, making two equal halves, is the <b>midsagittal (median) plane</b>. (The person is facing you, so their right half is on your left.)",
       fig: () => svg(sil(FRONT, [{ id: "pl-a", x: 0, y: 0, w: 130, h: H, cls: "a" }, { id: "pl-b", x: 130, y: 0, w: 130, h: H, cls: "b" }]) +
@@ -165,7 +165,7 @@ const QUESTIONS = [
         `<line class="cut" x1="0" y1="200" x2="260" y2="200"/>` + T(218, 188, "Superior", 15) + T(218, 226, "Inferior", 15), undefined, "Transverse plane") },
   ];
 
-  /* ---------- 页面 ---------- */
+  /* ---------- Page ---------- */
   document.getElementById("pose-fig").innerHTML = FIG.pose();
 
   const chips = document.getElementById("term-chips");

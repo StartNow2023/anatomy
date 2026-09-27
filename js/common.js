@@ -1,4 +1,4 @@
-// Anatomy Notes · 公用小工具：转义、打乱顺序、小测验
+// Anatomy Notes · shared helpers: escaping, shuffling, quizzes
 const AN = {};
 
 AN.esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -9,8 +9,8 @@ AN.shuffle = (arr) => {
   return a;
 };
 
-// 小测验：build() 每次返回一组题目 [{ q, options, a, why, visual? }]
-// review = { href, text } 结束后"去复习"按钮
+// Quiz: build() returns a fresh set of questions each round: [{ q, options, a, why, visual? }]
+// review = { href, text } is the "go back and review" button on the results screen
 AN.quiz = function (box, build, review) {
   let order, idx, score;
 
@@ -80,7 +80,7 @@ AN.quiz = function (box, build, review) {
   start();
 };
 
-// 本地保存的勾选状态（只存在自己的浏览器里）
+// Saved ticks (kept only in the visitor's own browser)
 AN.store = (key) => ({
   get() { try { return JSON.parse(localStorage.getItem(key)) || {}; } catch (e) { return {}; } },
   set(v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) {} },
