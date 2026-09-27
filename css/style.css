@@ -1,4 +1,4 @@
-/* ===== 解剖学习笔记 · 全站样式 ===== */
+/* ===== Anatomy Notes · 全站样式 ===== */
 :root {
   /* 配色：骨白 + 黛蓝 + 古铜金点缀 */
   --accent: #3f6e8c;        /* 黛蓝 主色 */
@@ -16,8 +16,8 @@
   --bad: #b5584a;
   --radius: 16px;
   --shadow: 0 2px 10px rgba(45, 70, 90, .05), 0 8px 24px rgba(45, 70, 90, .05);
-  --serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
-  --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -33,7 +33,7 @@ body {
 img { max-width: 100%; display: block; }
 a { color: var(--accent); }
 h1, h2, h3, h4 { font-family: var(--serif); color: var(--accent-deep); line-height: 1.35; font-weight: 600; }
-h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); margin: 0 0 .3em; letter-spacing: .04em; }
+h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin: 0 0 .3em; letter-spacing: .01em; }
 h2 { font-size: clamp(1.3rem, 3vw, 1.6rem); margin: 2.2em 0 .7em; }
 h3 { font-size: 1.15rem; margin: 1.4em 0 .5em; }
 .en { font-family: Georgia, "Times New Roman", serif; font-style: italic; color: var(--gold); font-weight: 400; letter-spacing: .02em; }
@@ -209,32 +209,68 @@ table.cmp tr:last-child td { border-bottom: none; }
 
 /* 骨骼图 */
 .sk {
+  --k: 1; --u: 1;
   --bone: #f3ebd9; --bone-far: #e3d8c0; --bone-edge: #a39374; --bone-hole: #8d7f66; --cart: #d8e7ec;
   display: block; width: 100%; height: auto; margin: 0 auto; -webkit-tap-highlight-color: transparent;
 }
 .sk .b { cursor: pointer; transition: opacity .25s; }
-.sk .e > * { fill: var(--bone-edge); stroke: var(--bone-edge); stroke-width: 2.4px; stroke-linejoin: round; stroke-linecap: round; }
+.sk .e > * { fill: var(--bone-edge); stroke: var(--bone-edge); stroke-width: calc(var(--k) * 2.4px); stroke-linejoin: round; stroke-linecap: round; }
 .sk .f > * { fill: var(--bone); }
 .sk .f.far > * { fill: var(--bone-far); }
 .sk .f.cart > * { fill: var(--cart); }
 .sk .e > .s, .sk .f > .s { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.sk .f > .s { stroke: var(--bone); }
+.sk .e > .s { stroke-width: calc(var(--w) + var(--k) * 2.4px); }
+.sk .f > .s { stroke: var(--bone); stroke-width: var(--w); }
 .sk .f.far > .s { stroke: var(--bone-far); }
 .sk .f.cart > .s { stroke: var(--cart); }
-.sk.z-head .e > :not(.s), .sk.z-pelvis .e > :not(.s) { stroke-width: 1.6px; }
-.sk.z-hand .e > :not(.s) { stroke-width: 1.2px; }
-.sk.z-foot .e > :not(.s) { stroke-width: 1px; }
+.sk.z-head, .sk.z-pelvis { --k: .67; }
+.sk.z-hand { --k: .5; }
+.sk.z-foot { --k: .42; }
 .sk .d { pointer-events: none; }
 .sk .d .hole, .sk .d.hole, .sk .d .hole * { fill: var(--bone-hole); }
-.sk .d .ln { fill: none; stroke: var(--bone-edge); stroke-width: .8px; stroke-linecap: round; }
+.sk .d .ln { fill: none; stroke: var(--bone-edge); stroke-width: calc(var(--k) * .8px); stroke-linecap: round; }
 .sk .top { pointer-events: none; }
 @media (hover: hover) { .sk .b:hover { --bone: #fffaf0; --bone-far: #f1e9d8; --bone-edge: var(--accent); } }
 .sk .b.on { --bone: #bcd6e6; --bone-far: #a9c9dd; --bone-edge: var(--accent-deep); --bone-hole: var(--accent-deep); }
 .sk.sel .b:not(.on) { opacity: .32; }
 
-.explore { display: grid; grid-template-columns: minmax(240px, 360px) 1fr; gap: 20px; align-items: start; margin-top: 16px; }
-.sk-figure { position: sticky; top: 104px; padding: 14px 14px 10px; }
-.sk-figure .sk { max-height: calc(100vh - 190px); }
+.explore { display: grid; grid-template-columns: minmax(280px, 440px) 1fr; gap: 20px; align-items: start; margin-top: 16px; }
+.sk-figure { position: sticky; top: 96px; padding: 10px 12px 8px; }
+.sk-figure .sk { height: min(calc(100vh - 200px), 720px); min-height: 360px; }
+.sk-tools { display: flex; gap: 8px; justify-content: center; margin-bottom: 6px; }
+.sk-tools .chip { font-size: .85rem; padding: 3px 12px; }
+.sk-tools .chip:disabled { opacity: .45; cursor: default; }
+
+/* 图上的名称标签和部位标记（字号按屏幕像素，放大缩小都一样大） */
+.sk .atlas line { stroke: var(--muted); stroke-width: calc(var(--u) * .8px); opacity: .7; }
+.sk .atlas circle { fill: var(--accent-deep); }
+.sk .atlas text, .sk .marks text {
+  font-family: var(--sans); font-size: calc(var(--u) * 11.5px); fill: var(--ink); cursor: pointer;
+  paint-order: stroke; stroke: var(--paper); stroke-width: calc(var(--u) * 3.5px); stroke-linejoin: round;
+}
+.sk .atlas g:hover text, .sk .atlas g.on text { fill: var(--accent-deep); font-weight: 700; }
+.sk .atlas g.on line { stroke: var(--accent-deep); opacity: 1; }
+.sk.zoomed .atlas, .sk.nolabels .atlas { display: none; }
+.sk .marks line { stroke: var(--accent-deep); stroke-width: calc(var(--u) * 1px); }
+.sk .marks .dot { fill: var(--accent-deep); stroke: #fff; stroke-width: calc(var(--u) * 1.4px); }
+.sk .marks .ring { fill: none; stroke: var(--gold); stroke-width: calc(var(--u) * 2px); opacity: 0; transform-box: fill-box; transform-origin: center; }
+.sk .marks text { font-size: calc(var(--u) * 12px); font-weight: 600; fill: var(--accent-deep); }
+.sk .mark.hot text { fill: var(--gold); }
+.sk .mark.hot .dot { fill: var(--gold); }
+.sk .mark.ping .ring { animation: ping 1s ease-out 2; }
+@keyframes ping { from { transform: scale(1); opacity: .95; } to { transform: scale(4); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .sk .mark.ping .ring { animation: none; opacity: 1; } }
+
+/* 说明文字里对应图上的词 */
+.mk { color: var(--accent-deep); font-weight: 600; border-bottom: 2px dotted var(--accent-soft); cursor: pointer; border-radius: 3px; transition: background .2s; }
+.mk:hover, .mk.hot, .mk:focus-visible { background: #f3ead6; color: #8a6a35; outline: none; }
+.bl { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent-soft); text-underline-offset: 2px; }
+.mk-list { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 10px 0 2px; font-size: .9rem; color: var(--muted); }
+.mk-list .chip { font-size: .85rem; padding: 2px 10px; }
+.mk-list .chip.hot { border-color: var(--gold); background: #f3ead6; }
+.lm-row { display: flex; align-items: flex-start; gap: 6px; }
+.lm-row .check-item { flex: 1; }
+.lm-show { flex: none; margin-top: 12px; font-size: .82rem; padding: 3px 10px; }
 .sk-cap { text-align: center; font-size: .92rem; color: var(--muted); margin-top: 8px; min-height: 1.6em; }
 .sk-cap b { color: var(--accent-deep); font-family: var(--serif); }
 .sk-cap .en { font-size: .9em; }
@@ -251,8 +287,9 @@ table.cmp tr:last-child td { border-bottom: none; }
 .sk-group .label { flex: none; width: 4em; color: var(--muted); font-size: .9rem; }
 @media (max-width: 760px) {
   .explore { grid-template-columns: 1fr; gap: 12px; }
-  .sk-figure { top: 92px; z-index: 5; padding: 8px 8px 4px; }
-  .sk-figure .sk { max-height: 38vh; }
+  .sk-figure { top: 88px; z-index: 5; padding: 6px 8px 4px; }
+  .sk-figure .sk { height: 42vh; min-height: 0; }
+  .sk-tools { margin-bottom: 2px; }
   .sk-cap { margin-top: 2px; font-size: .85rem; }
   .sk-group { flex-direction: column; gap: 6px; }
 }

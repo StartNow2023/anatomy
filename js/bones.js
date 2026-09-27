@@ -1,168 +1,210 @@
-// 第 1 阶段 · 骨骼
+// Stage 1 · Bones（第 1 阶段 · 骨骼）
 // 想改骨头的说明文字：改下面 BONES 里对应的一项
-// { id, name: 名称, en: 英文, group: 分类, count: 数量, short: 一句话,
-//   desc: 在哪/长什么样, feel: 在身上怎么摸到(可不写), tip: 小知识(可不写), zoom: 小测验放大的区域(可不写) }
+// { id, name: 名称, tag: 图上标签(短), group: 分类, count: 数量, short: 一句话,
+//   desc: 在哪/长什么样, feel: 在身上怎么摸到(可不写), tip: 小知识(可不写),
+//   link: 别的骨头说明里出现这些词时，变成可以点的链接（正则，可不写）, zoom: 小测验放大的区域(可不写) }
 const BONES = [
-  // ---------- 颅骨 ----------
-  { id: "skull", name: "颅骨", en: "Skull", group: "颅骨", count: "23 块（不含听小骨）", zoom: "head",
-    short: "包住脑、构成脸的一组骨头。",
-    desc: "像一顶\"头盔\"。分两部分：上后方保护脑的脑颅骨 8 块（额骨、顶骨、枕骨、颞骨、蝶骨、筛骨），前下方构成脸的面颅骨 15 块。成年后大部分颅骨之间是不能活动的\"缝\"。下颌骨也属于面颅骨，图上单独标了出来。",
-    feel: "额头是额骨；后脑勺正中最突出的点是枕外隆凸；脸颊两侧的颧骨也能摸到。",
-    tip: "婴儿的颅骨还没长牢，头顶有一块软软的\"囟门\"，前囟一般在 1～2 岁闭合。" },
-  { id: "mandible", name: "下颌骨", en: "Mandible", group: "颅骨", count: "1 块", zoom: "head",
-    short: "下巴骨，颅骨里唯一靠关节活动的骨。",
-    desc: "面颅骨中最大的一块，呈马蹄形，下牙都长在它上面。它通过颞下颌关节和颅骨相连，说话、咀嚼都靠它上下左右活动。",
-    feel: "下巴；耳垂下方往前的\"拐角\"是下颌角。手指放在耳朵前方，张嘴闭嘴，能感觉到下颌骨在滑动——那里就是颞下颌关节。",
-    tip: "下颌角的位置和角度，决定了一个人看起来是\"方脸\"还是\"尖脸\"。" },
+  // ---------- Skull ----------
+  { id: "skull", name: "Skull", tag: "Skull", group: "Skull", count: "22 bones", zoom: "head", link: "skull",
+    short: "The bones that protect the brain and shape the face.",
+    desc: "It works like a helmet and has two parts: 8 cranial bones around the brain (the frontal bone, two parietal bones, the occipital bone, two temporal bones, the sphenoid and the ethmoid) and 14 facial bones that shape the face. In adults most skull bones are locked together by immovable joints called sutures. The mandible is one of the facial bones — it is shown separately in the picture.",
+    feel: "Your forehead is the frontal bone, the bump at the back of your head is the external occipital protuberance, and your cheekbones are the zygomatic bones.",
+    tip: "A baby's skull is not fully joined yet. The soft spot on top of the head (the anterior fontanelle) usually closes between 1 and 2 years of age." },
+  { id: "mandible", name: "Mandible", tag: "Mandible", group: "Skull", count: "1 bone", zoom: "head", link: "mandible|lower jaw",
+    short: "The lower jaw — the only skull bone that moves at a joint.",
+    desc: "The largest facial bone, shaped like a horseshoe. All the lower teeth sit in it. It meets the rest of the skull at the temporomandibular joint (TMJ), which lets you talk and chew.",
+    feel: "Your chin is the front of the mandible, and the corner below and in front of your earlobe is the angle of the mandible. Put a finger just in front of your ear and open and close your mouth — you can feel the jaw sliding at the TMJ.",
+    tip: "The angle of the mandible is a big part of what makes a face look square or pointed." },
 
-  // ---------- 躯干骨 ----------
-  { id: "cervical", name: "颈椎", en: "Cervical Vertebrae", group: "躯干骨", count: "7 块", zoom: "head",
-    short: "脖子里的 7 块椎骨，最灵活。",
-    desc: "脖子里的脊椎，个头小、活动最灵活。第 1 颈椎叫寰椎，第 2 颈椎叫枢椎，点头和转头主要靠它们。",
-    feel: "低头时，后颈正中最凸出的骨点通常是第 7 颈椎的棘突（叫\"隆椎\"），常用来往下数椎骨。",
-    tip: "口诀：颈 7、胸 12、腰 5，再加骶骨、尾骨各 1 块。长颈鹿的颈椎也是 7 块，只是每一块都特别长。" },
-  { id: "thoracic", name: "胸椎", en: "Thoracic Vertebrae", group: "躯干骨", count: "12 块", zoom: "trunk",
-    short: "胸部的 12 块椎骨，每块连一对肋骨。",
-    desc: "胸部的脊椎，每一块都和一对肋骨相连，一起围成胸廓。因为有肋骨\"拉着\"，它比颈椎、腰椎稳定，活动度小。正面图里它躲在胸骨和肋骨后面，选中后会透出来。",
-    feel: "背部正中一个个的小突起，就是胸椎的棘突。",
-    tip: "12 块胸椎对应 12 对肋骨，数量一一对应，很好记。" },
-  { id: "lumbar", name: "腰椎", en: "Lumbar Vertebrae", group: "躯干骨", count: "5 块", zoom: "trunk",
-    short: "腰部的 5 块椎骨，最粗大、承重最多。",
-    desc: "腰部的脊椎，是所有椎骨中最粗大的，因为它要承受整个上半身的重量。腰痛、腰椎间盘突出常发生在这里。",
-    feel: "两侧髂嵴最高点的连线，大约平对第 4 腰椎的棘突——医生做腰椎穿刺时就用这个方法找位置。",
-    tip: "从上往下，椎骨一块比一块大：越往下，要扛的重量越多。" },
-  { id: "sacrum", name: "骶骨", en: "Sacrum", group: "躯干骨", count: "1 块（5 块骶椎融合）", zoom: "pelvis",
-    short: "脊柱下端的倒三角形骨，骨盆的后壁。",
-    desc: "上面承接腰椎，下面连着尾骨，左右和两块髋骨相连，一起组成骨盆。表面有几对小孔（骶孔），是神经穿出的通道。",
-    feel: "腰的正下方、臀部正中那块平平的骨面。",
-    tip: "小时候是 5 块分开的骶椎，成年后才长成一整块。" },
-  { id: "coccyx", name: "尾骨", en: "Coccyx", group: "躯干骨", count: "1 块（3～5 块尾椎融合）", zoom: "pelvis",
-    short: "俗称\"尾巴骨\"，脊柱最末端。",
-    desc: "脊柱最下端的小骨，是人类祖先的尾巴退化后留下的痕迹。虽然小，但有好几块肌肉和韧带附着在上面。",
-    feel: "两侧臀部之间、最下方的尖端。一屁股坐到地上时最容易伤到它。",
-    tip: "成人脊柱一共 26 块：颈椎 7 + 胸椎 12 + 腰椎 5 + 骶骨 1 + 尾骨 1。" },
-  { id: "sternum", name: "胸骨", en: "Sternum", group: "躯干骨", count: "1 块", zoom: "trunk",
-    short: "胸前正中的扁骨，像一把短剑。",
-    desc: "从上到下分三段：胸骨柄、胸骨体和下端小小的剑突。两侧通过肋软骨和肋骨相连。",
-    feel: "两侧锁骨之间的凹陷叫颈静脉切迹；从这里往下约 5 厘米，能摸到一条横行的隆起，叫胸骨角，它两侧连着第 2 肋，是数肋骨的起点。",
-    tip: "心肺复苏（CPR）按压的位置，就在胸骨的下半部。" },
-  { id: "ribs", name: "肋骨", en: "Ribs", group: "躯干骨", count: "12 对（24 根）", zoom: "trunk",
-    short: "12 对弯弯的扁骨，围成保护心肺的\"笼子\"。",
-    desc: "后端连胸椎，前端通过肋软骨（图上浅蓝色的部分）连到胸骨。第 1～7 对直接连胸骨，叫真肋；第 8～12 对叫假肋，其中第 8～10 对连到上一根肋的软骨上，第 11、12 对前端是游离的，叫浮肋。肋软骨让胸廓有弹性，呼吸时能扩张。",
-    feel: "胸前下方、两侧斜向外下的弧形边缘是肋弓，深吸一口气更容易摸到。",
-    tip: "男女都是 12 对肋骨——\"男人少一根肋骨\"只是传说。" },
+  // ---------- Trunk ----------
+  { id: "cervical", name: "Cervical Vertebrae", tag: "Cervical", group: "Trunk", count: "7 bones", zoom: "head", link: "cervical vertebrae|cervical vertebra",
+    short: "The 7 small, flexible vertebrae of the neck.",
+    desc: "The vertebrae of the neck are small and the most mobile in the spine. The 1st cervical vertebra is called the atlas and the 2nd is the axis — nodding and turning your head rely mostly on these two.",
+    feel: "Bend your head forward: the most prominent bump at the back of your neck is usually the spinous process of C7, the vertebra prominens. It is a handy starting point for counting vertebrae.",
+    tip: "Remember \"breakfast at 7, lunch at 12, dinner at 5\": 7 cervical, 12 thoracic and 5 lumbar vertebrae. A giraffe also has just 7 neck vertebrae — each one is simply very long." },
+  { id: "thoracic", name: "Thoracic Vertebrae", tag: "Thoracic", group: "Trunk", count: "12 bones", zoom: "trunk", link: "thoracic vertebrae|thoracic vertebra",
+    short: "The 12 vertebrae of the chest; each one holds a pair of ribs.",
+    desc: "Each thoracic vertebra joins a pair of ribs, and together they form the rib cage. Held in place by the ribs, this part of the spine is steadier and moves less than the neck or the lower back. In the front view it hides behind the sternum and ribs — select it and it shows through.",
+    feel: "The row of small bumps down the middle of your upper back are the spinous processes of the thoracic vertebrae.",
+    tip: "12 thoracic vertebrae, 12 pairs of ribs — one pair for each." },
+  { id: "lumbar", name: "Lumbar Vertebrae", tag: "Lumbar", group: "Trunk", count: "5 bones", zoom: "trunk", link: "lumbar vertebrae",
+    short: "The 5 largest vertebrae, in the lower back.",
+    desc: "The vertebrae of the lower back are the biggest of all, because they carry the weight of the whole upper body. Low back pain and slipped (herniated) discs often happen here.",
+    feel: "A line joining the highest points of your two iliac crests crosses the spine at about L4 — doctors use this to find the right level for a lumbar puncture.",
+    tip: "Going down the spine, the vertebrae get bigger and bigger: the lower they are, the more weight they carry." },
+  { id: "sacrum", name: "Sacrum", tag: "Sacrum", group: "Trunk", count: "1 bone (5 fused)", zoom: "pelvis", link: "sacrum",
+    short: "The triangular bone at the base of the spine — the back wall of the pelvis.",
+    desc: "It sits below the lumbar vertebrae and above the coccyx, and joins the two hip bones on either side to form the pelvis. Nerves pass through its small holes, the sacral foramina.",
+    feel: "The flat area just below your waist, in the middle of your lower back.",
+    tip: "It starts out as 5 separate sacral vertebrae that fuse into a single bone in adulthood." },
+  { id: "coccyx", name: "Coccyx", tag: "Coccyx", group: "Trunk", count: "1 bone (3–5 fused)", zoom: "pelvis", link: "coccyx|tailbone",
+    short: "The tailbone — the very end of the spine.",
+    desc: "The small bone at the bottom of the spine, left over from the tail our distant ancestors had. Small as it is, several muscles and ligaments attach to it.",
+    feel: "The tip at the very bottom of the spine, between your buttocks. Landing hard on your bottom is the easiest way to injure it.",
+    tip: "An adult spine has 26 bones: 7 cervical + 12 thoracic + 5 lumbar vertebrae, plus the sacrum and the coccyx." },
+  { id: "sternum", name: "Sternum", tag: "Sternum", group: "Trunk", count: "1 bone", zoom: "trunk", link: "sternum|breastbone",
+    short: "The flat breastbone in the middle of the chest, shaped like a short sword.",
+    desc: "It has three parts, from top to bottom: the manubrium, the body and the small xiphoid process. Costal cartilages connect it to the ribs on each side.",
+    feel: "The dip between the inner ends of your collarbones is the jugular notch. About 5 cm below it you can feel a horizontal ridge — the sternal angle. The 2nd ribs attach on either side of it, so this is where you start counting ribs.",
+    tip: "Chest compressions in CPR are done on the lower half of the sternum." },
+  { id: "ribs", name: "Ribs", tag: "Ribs", group: "Trunk", count: "12 pairs (24 bones)", zoom: "trunk", link: "ribs|rib cage|rib",
+    short: "12 pairs of curved bones that make a cage around the heart and lungs.",
+    desc: "At the back, each rib joins a thoracic vertebra; at the front, costal cartilage (light blue in the picture) links it to the sternum. Ribs 1–7 attach straight to the sternum and are called true ribs. Ribs 8–12 are false ribs: ribs 8–10 join the cartilage of the rib above, and ribs 11 and 12 end freely at the front — the floating ribs. The cartilage makes the rib cage springy so it can expand when you breathe.",
+    feel: "The curved edge running down and outward on each side of your lower chest is the costal margin — it is easier to feel when you take a deep breath.",
+    tip: "Men and women both have 12 pairs of ribs. The idea that men have one fewer is a myth." },
 
-  // ---------- 上肢骨 ----------
-  { id: "clavicle", name: "锁骨", en: "Clavicle", group: "上肢骨", count: "1 对", zoom: "trunk",
-    short: "胸前上方横着的 S 形长骨。",
-    desc: "内侧连胸骨，外侧连肩胛骨的肩峰。它是上肢和躯干之间唯一的骨性连接，像一根撑杆把肩膀撑开。",
-    feel: "从胸骨上端向两侧肩膀摸，一整根都在皮肤下面，全长都能摸到。",
-    tip: "锁骨是最容易骨折的骨头之一：摔倒时用手撑地，力量会一路传到锁骨。" },
-  { id: "scapula", name: "肩胛骨", en: "Scapula", group: "上肢骨", count: "1 对", zoom: "trunk",
-    short: "背上的三角形扁骨，俗称\"蝴蝶骨\"。",
-    desc: "贴在背部上外侧、第 2～7 肋的后面。外侧的关节盂和肱骨头组成肩关节；背面有一条横行的骨嵴叫肩胛冈，向外延伸成肩峰。它主要在身体后面，正面图里只露出外侧一点，选中后会透出来。",
-    feel: "肩膀最外上方的骨点是肩峰；双臂自然下垂时，肩胛骨下角大约平对第 7 肋，是在背后数肋骨的标志。",
-    tip: "肩胛骨不和躯干直接\"焊\"在一起，主要靠肌肉固定，所以它能上下左右滑动，手臂才能举过头顶。" },
-  { id: "humerus", name: "肱骨", en: "Humerus", group: "上肢骨", count: "1 对",
-    short: "上臂里唯一的一根长骨。",
-    desc: "上端圆圆的肱骨头和肩胛骨组成肩关节；下端又宽又扁，和桡骨、尺骨组成肘关节。",
-    feel: "肘部内外两侧各有一个突起：内上髁和外上髁。",
-    tip: "胳膊肘撞到会像过电一样发麻，是因为尺神经正好从内上髁后方经过——就是俗称的\"麻筋\"。\"肱\"读 gōng。" },
-  { id: "radius", name: "桡骨", en: "Radius", group: "上肢骨", count: "1 对",
-    short: "前臂外侧（拇指侧）的长骨。",
-    desc: "前臂两根骨头中靠外侧（拇指这一侧）的那根。上端细、下端粗，下端和腕骨组成腕关节。翻转手掌时，桡骨绕着尺骨转。",
-    feel: "手腕拇指一侧的骨突是桡骨茎突；在它内侧、手腕掌面能摸到脉搏跳动（桡动脉），就是\"把脉\"的位置。",
-    tip: "手掌朝前站好：拇指一侧是桡骨，小指一侧是尺骨。\"桡\"读 ráo。" },
-  { id: "ulna", name: "尺骨", en: "Ulna", group: "上肢骨", count: "1 对",
-    short: "前臂内侧（小指侧）的长骨。",
-    desc: "前臂内侧（小指这一侧）的长骨。和桡骨正好相反，它上端粗大、下端细小，上端像扳手一样钩住肱骨下端，是肘关节稳定的关键。",
-    feel: "弯曲手肘时，肘尖就是尺骨上端的鹰嘴；手腕背面小指侧那颗小圆骨是尺骨头。",
-    tip: "桡骨\"上细下粗\"，尺骨\"上粗下细\"，两根正好互补。" },
-  { id: "carpals", name: "腕骨", en: "Carpal Bones", group: "上肢骨", count: "每侧 8 块", zoom: "hand",
-    short: "手腕里的 8 块小短骨，排成两排。",
-    desc: "每排 4 块。近侧一排（靠前臂）：手舟骨、月骨、三角骨、豌豆骨；远侧一排（靠手掌）：大多角骨、小多角骨、头状骨、钩骨。它们之间有很多小关节，让手腕灵活转动。",
-    feel: "手腕掌面、小指一侧的腕横纹附近，能摸到一颗像小豌豆的骨——豌豆骨。",
-    tip: "口诀：舟月三角豆，大小头状钩（从拇指侧往小指侧，先近排、后远排）。" },
-  { id: "metacarpals", name: "掌骨", en: "Metacarpals", group: "上肢骨", count: "每侧 5 块", zoom: "hand",
-    short: "手掌里的 5 根小长骨。",
-    desc: "从拇指侧起依次叫第 1～5 掌骨。第 1 掌骨最短最粗，活动范围大，所以拇指能和其他手指对捏。",
-    feel: "握拳时，手背上突出的一排\"骨节\"就是掌骨头。",
-    tip: "用拳头打硬东西时，第 5 掌骨（小指那根）最容易骨折，医学上叫\"拳击手骨折\"。" },
-  { id: "phalanges-h", name: "指骨", en: "Phalanges (Hand)", group: "上肢骨", count: "每侧 14 块", zoom: "hand",
-    short: "手指的骨头：拇指 2 节，其余各 3 节。",
-    desc: "拇指 2 节（近节、远节），其余四指各 3 节（近节、中节、远节）：2 + 4 × 3 = 14。",
-    feel: "弯曲手指时，能摸到一节一节的指骨和中间的指间关节。",
-    tip: "一只手 27 块骨：腕骨 8 + 掌骨 5 + 指骨 14。两只手就有 54 块，超过全身骨头的四分之一。" },
+  // ---------- Upper limb ----------
+  { id: "clavicle", name: "Clavicle", tag: "Clavicle", group: "Upper limb", count: "1 pair", zoom: "trunk", link: "clavicles|clavicle|collarbones|collarbone",
+    short: "The S-shaped collarbone across the top of the chest.",
+    desc: "Its inner end joins the sternum and its outer end joins the acromion of the scapula. It is the only bony link between the arm and the trunk, acting like a strut that holds the shoulder out.",
+    feel: "Follow it from the top of the sternum out to your shoulder — the whole bone lies just under the skin.",
+    tip: "The clavicle is one of the most commonly broken bones: when you fall on an outstretched hand, the force travels all the way up to it." },
+  { id: "scapula", name: "Scapula", tag: "Scapula", group: "Upper limb", count: "1 pair", zoom: "trunk", link: "scapula|shoulder blade",
+    short: "The triangular shoulder blade on the upper back.",
+    desc: "It lies on the upper back over ribs 2–7. Its shallow glenoid cavity meets the head of the humerus to form the shoulder joint. A ridge across its back, the spine of the scapula, ends on the outside at the acromion. Because it is mostly behind the body, the front view only shows its outer edge — select it and it shows through.",
+    feel: "The highest, outermost point of your shoulder is the acromion. With your arms relaxed at your sides, the inferior angle of the scapula is roughly level with the 7th rib — a landmark for counting ribs from the back.",
+    tip: "The scapula is held in place mostly by muscles rather than locked to the trunk, so it can glide up, down and around. That is how you can lift your arm above your head." },
+  { id: "humerus", name: "Humerus", tag: "Humerus", group: "Upper limb", count: "1 pair", link: "humerus",
+    short: "The single long bone of the upper arm.",
+    desc: "The round head at the top meets the scapula to form the shoulder joint. The wide, flat lower end meets the radius and ulna to form the elbow joint.",
+    feel: "There is a bump on each side of your elbow: the medial epicondyle on the inside and the lateral epicondyle on the outside.",
+    tip: "Hitting your \"funny bone\" feels like an electric shock because the ulnar nerve runs right behind the medial epicondyle." },
+  { id: "radius", name: "Radius", tag: "Radius", group: "Upper limb", count: "1 pair", link: "radius",
+    short: "The forearm bone on the thumb side.",
+    desc: "The lateral (thumb-side) bone of the forearm. It is slim at the top and wide at the bottom, where it forms the wrist joint with the carpal bones. When you turn your palm over, the radius rolls around the ulna.",
+    feel: "The bony point on the thumb side of your wrist is the radial styloid process. Just inside it, on the palm side, you can feel your pulse — the radial artery.",
+    tip: "Stand with your palms facing forward: the radius is on the thumb side and the ulna on the little-finger side. Memory hook — the radius goes \"round\" the ulna when you turn your hand." },
+  { id: "ulna", name: "Ulna", tag: "Ulna", group: "Upper limb", count: "1 pair", link: "ulna",
+    short: "The forearm bone on the little-finger side.",
+    desc: "The medial (little-finger-side) bone of the forearm. Unlike the radius, it is big at the top and small at the bottom. Its upper end hooks around the lower end of the humerus like a wrench, which keeps the elbow stable.",
+    feel: "The point of your elbow when you bend it is the olecranon. The small round bump on the back of your wrist, little-finger side, is the head of the ulna.",
+    tip: "Radius: slim at the top, thick at the bottom. Ulna: thick at the top, slim at the bottom. The two fit together neatly." },
+  { id: "carpals", name: "Carpal Bones", tag: "Carpals", group: "Upper limb", count: "8 per hand", zoom: "hand", link: "carpal bones|carpals",
+    short: "8 small bones in the wrist, in two rows.",
+    desc: "There are four in each row. Proximal row (next to the forearm): scaphoid, lunate, triquetrum and pisiform. Distal row (next to the palm): trapezium, trapezoid, capitate and hamate. The many small joints between them let the wrist move freely.",
+    feel: "On the palm side of your wrist, little-finger side, near the wrist crease, there is a pea-sized bump — the pisiform.",
+    tip: "Mnemonic, from the thumb side to the little-finger side, proximal row first: \"She Looks Too Pretty, Try To Catch Her\" — Scaphoid, Lunate, Triquetrum, Pisiform, Trapezium, Trapezoid, Capitate, Hamate." },
+  { id: "metacarpals", name: "Metacarpals", tag: "Metacarpals", group: "Upper limb", count: "5 per hand", zoom: "hand", link: "metacarpals",
+    short: "The 5 long bones of the palm.",
+    desc: "They are numbered 1 to 5, starting from the thumb. The 1st metacarpal is the shortest and thickest and moves the most, which is why your thumb can touch each of your other fingers.",
+    feel: "The knuckles on the back of your fist are the heads of the metacarpals.",
+    tip: "Punching something hard often breaks the 5th metacarpal (the little-finger one) — doctors call it a \"boxer's fracture\"." },
+  { id: "phalanges-h", name: "Phalanges (Hand)", tag: "Phalanges", group: "Upper limb", count: "14 per hand", zoom: "hand", link: "finger bones",
+    short: "The finger bones: 2 in the thumb, 3 in each of the other fingers.",
+    desc: "The thumb has 2 (proximal and distal) and each of the other four fingers has 3 (proximal, middle and distal): 2 + 4 × 3 = 14.",
+    feel: "Bend your fingers and you can feel each bone and the joints between them.",
+    tip: "One hand has 27 bones: 8 carpals + 5 metacarpals + 14 phalanges. Two hands have 54 — more than a quarter of all the bones in your body." },
 
-  // ---------- 下肢骨 ----------
-  { id: "hip", name: "髋骨", en: "Hip Bone", group: "下肢骨", count: "1 对", zoom: "pelvis",
-    short: "骨盆两侧的大骨，由髂骨、坐骨、耻骨长成。",
-    desc: "由髂骨、坐骨、耻骨三块骨在青春期（约 15～16 岁）融合而成。外侧的深窝叫髋臼，和股骨头组成髋关节。左右髋骨加上骶骨、尾骨，围成骨盆。",
-    feel: "双手叉腰摸到的弧形骨缘是髂嵴；沿着它往前摸到的尽头骨突是髂前上棘；坐下时硌着椅子的是坐骨结节。",
-    tip: "女性的骨盆一般更宽、更浅，这是为了适应分娩。" },
-  { id: "femur", name: "股骨", en: "Femur", group: "下肢骨", count: "1 对",
-    short: "大腿骨，人体最长、最粗壮的骨。",
-    desc: "长度约占身高的四分之一。上端的股骨头和髋臼组成髋关节，股骨头下面较细的一段叫股骨颈；下端膨大，和胫骨、髌骨组成膝关节。",
-    feel: "大腿外侧上端能摸到一个大骨突，叫大转子，走路或抬腿时能感觉到它在动。",
-    tip: "老年人摔倒后最常见的骨折之一，就是股骨颈骨折。" },
-  { id: "patella", name: "髌骨", en: "Patella", group: "下肢骨", count: "1 对",
-    short: "膝盖骨，人体最大的籽骨。",
-    desc: "膝盖前面的三角形小骨，包在大腿前面股四头肌的肌腱里。它像一个滑轮，让伸膝更省力，也保护膝关节。",
-    feel: "腿伸直、大腿放松时，能把髌骨左右推动。",
-    tip: "新生儿的髌骨还是软骨，要到 3～6 岁才开始变成骨头。\"髌\"读 bìn。" },
-  { id: "tibia", name: "胫骨", en: "Tibia", group: "下肢骨", count: "1 对",
-    short: "小腿内侧粗壮的长骨，主要承重。",
-    desc: "承受小腿绝大部分的体重。上端宽大的平台和股骨组成膝关节，下端向内突出形成内踝。",
-    feel: "小腿正前方从膝下到脚踝的骨嵴就是胫骨前缘，俗称\"迎面骨\"——这里皮下没有肌肉保护，所以磕到特别疼。脚踝内侧的突起是内踝。",
-    tip: "\"胫\"读 jìng。" },
-  { id: "fibula", name: "腓骨", en: "Fibula", group: "下肢骨", count: "1 对",
-    short: "小腿外侧细长的骨，几乎不承重。",
-    desc: "主要供肌肉附着，下端形成外踝，帮助稳定踝关节。",
-    feel: "膝盖外下方能摸到腓骨头；脚踝外侧的突起是外踝。对比一下：外踝比内踝更低、更靠后。",
-    tip: "\"腓\"读 féi。因为它不怎么承重，医生有时会取一段腓骨，去修复身体其他地方的骨缺损。" },
-  { id: "tarsals", name: "跗骨", en: "Tarsal Bones", group: "下肢骨", count: "每侧 7 块", zoom: "foot",
-    short: "脚后半部分的 7 块短骨，包括脚后跟。",
-    desc: "距骨、跟骨、足舟骨、骰骨和 3 块楔骨（内侧、中间、外侧）。距骨在最上面，和胫骨、腓骨组成踝关节；跟骨最大，就是脚后跟（正面图里它藏在后面）。",
-    feel: "脚后跟就是跟骨，跟腱（阿基里斯腱）就附着在它上面。",
-    tip: "\"跗\"读 fū。" },
-  { id: "metatarsals", name: "跖骨", en: "Metatarsals", group: "下肢骨", count: "每侧 5 块", zoom: "foot",
-    short: "脚掌中部的 5 根小长骨。",
-    desc: "和手上的掌骨很像，从大脚趾侧起依次叫第 1～5 跖骨。跗骨和跖骨一起拱成足弓，让走路、跑跳更有弹性。",
-    feel: "脚背上能摸到一根根的跖骨；脚外侧边缘中间，能摸到第 5 跖骨底的突起。",
-    tip: "\"跖\"读 zhí。长时间走路、跑步，跖骨容易出现\"疲劳骨折\"。" },
-  { id: "phalanges-f", name: "趾骨", en: "Phalanges (Foot)", group: "下肢骨", count: "每侧 14 块", zoom: "foot",
-    short: "脚趾的骨头：大脚趾 2 节，其余各 3 节。",
-    desc: "排列和手指一样：大脚趾 2 节，其余四趾各 3 节。不过趾骨比指骨短小得多，小脚趾的中节和远节有时会长在一起。",
-    feel: "弯曲脚趾时，能摸到趾骨和趾间关节。",
-    tip: "一只脚 26 块骨：跗骨 7 + 跖骨 5 + 趾骨 14。两只手加两只脚一共 106 块，超过全身骨头的一半！" },
+  // ---------- Lower limb ----------
+  { id: "hip", name: "Hip Bone", tag: "Hip bone", group: "Lower limb", count: "1 pair", zoom: "pelvis", link: "hip bones|hip bone",
+    short: "The large bone on each side of the pelvis, made of the ilium, ischium and pubis.",
+    desc: "Three bones — the ilium, ischium and pubis — fuse into one during the teenage years (around age 15–16). The deep socket on its outer side, the acetabulum, holds the head of the femur to form the hip joint. The two hip bones plus the sacrum and coccyx make up the pelvis.",
+    feel: "Put your hands on your hips: the curved edge you feel is the iliac crest. Follow it forward to the bony point at its front end — the anterior superior iliac spine. The bones you sit on are the ischial tuberosities.",
+    tip: "Women's pelvises are usually wider and shallower, which helps with childbirth." },
+  { id: "femur", name: "Femur", tag: "Femur", group: "Lower limb", count: "1 pair", link: "femur|thigh bone",
+    short: "The thigh bone — the longest and strongest bone in the body.",
+    desc: "It is about a quarter of your height. Its head fits into the acetabulum to form the hip joint; the narrow part just below the head is the neck of the femur. The wide lower end meets the tibia and patella to form the knee joint.",
+    feel: "On the outside of your upper thigh you can feel a large bump, the greater trochanter. It moves when you walk or lift your leg.",
+    tip: "A broken neck of the femur is one of the most common fractures when older people fall." },
+  { id: "patella", name: "Patella", tag: "Patella", group: "Lower limb", count: "1 pair", link: "patella|kneecap",
+    short: "The kneecap — the largest sesamoid bone in the body.",
+    desc: "A triangular bone at the front of the knee that sits inside the tendon of the quadriceps muscle. It works like a pulley, making it easier to straighten the knee, and it protects the knee joint.",
+    feel: "Straighten your leg and relax your thigh — you can slide the patella from side to side.",
+    tip: "Babies' kneecaps are still cartilage; they only begin turning into bone at around 3–6 years old." },
+  { id: "tibia", name: "Tibia", tag: "Tibia", group: "Lower limb", count: "1 pair", link: "tibia|shin bone",
+    short: "The thick shin bone on the inner side of the leg; it carries the weight.",
+    desc: "It carries almost all of the body's weight in the lower leg. Its broad upper end meets the femur at the knee, and its lower end bulges inward to form the medial malleolus.",
+    feel: "The sharp ridge down the front of your lower leg is the anterior border of the tibia — your shin. There is no muscle over it, which is why knocking your shin hurts so much. The bump on the inner side of your ankle is the medial malleolus.",
+    tip: "\"Tibia\" is also the Latin word for a flute — ancient flutes were sometimes made from shin bones." },
+  { id: "fibula", name: "Fibula", tag: "Fibula", group: "Lower limb", count: "1 pair", link: "fibula",
+    short: "The thin bone on the outer side of the leg; it carries almost no weight.",
+    desc: "It mainly anchors muscles, and its lower end forms the lateral malleolus, which steadies the ankle joint.",
+    feel: "Below and to the outside of your knee you can feel the head of the fibula. The bump on the outer side of your ankle is the lateral malleolus — compare the two ankles: the lateral malleolus is lower and farther back than the medial malleolus.",
+    tip: "Because it carries so little weight, surgeons sometimes take a piece of the fibula to rebuild bone elsewhere in the body." },
+  { id: "tarsals", name: "Tarsal Bones", tag: "Tarsals", group: "Lower limb", count: "7 per foot", zoom: "foot", link: "tarsal bones|tarsals",
+    short: "The 7 short bones at the back of the foot, including the heel.",
+    desc: "The talus, calcaneus, navicular, cuboid and three cuneiforms (medial, intermediate and lateral). The talus sits on top and forms the ankle joint with the tibia and fibula. The calcaneus is the largest — it is your heel (mostly hidden behind the foot in this front view).",
+    feel: "Your heel is the calcaneus; the Achilles tendon attaches to it.",
+    tip: "Mnemonic: \"Tiger Cubs Need MILC\" — Talus, Calcaneus, Navicular, Medial, Intermediate and Lateral cuneiforms, Cuboid." },
+  { id: "metatarsals", name: "Metatarsals", tag: "Metatarsals", group: "Lower limb", count: "5 per foot", zoom: "foot", link: "metatarsals",
+    short: "The 5 long bones in the middle of the foot.",
+    desc: "Much like the metacarpals of the hand, they are numbered 1 to 5, starting from the big toe. Together with the tarsals they form the arches of the foot, which put the spring in your step.",
+    feel: "You can feel them as long ridges on top of your foot. Halfway along the outer edge of your foot there is a bump — the base of the 5th metatarsal.",
+    tip: "Walking or running long distances can cause stress fractures in the metatarsals, sometimes called \"march fractures\"." },
+  { id: "phalanges-f", name: "Phalanges (Foot)", tag: "Phalanges", group: "Lower limb", count: "14 per foot", zoom: "foot", link: "toe bones",
+    short: "The toe bones: 2 in the big toe, 3 in each of the other toes.",
+    desc: "They are arranged like the fingers: the big toe has 2 and every other toe has 3. Toe bones are much shorter than finger bones, and in the little toe the middle and distal phalanges are sometimes fused.",
+    feel: "Curl your toes and you can feel the phalanges and the joints between them.",
+    tip: "One foot has 26 bones: 7 tarsals + 5 metatarsals + 14 phalanges. Hands and feet together have 106 bones — more than half of the whole skeleton!" },
 ];
 
-// 在自己身上摸一摸：想加新条目，照格式加一行 ["名称", "怎么找"]
+// 放大某块骨时，在图上标出的部位
+// [标签, x, y, 标签往右挪多少, 标签往下挪多少, 说明文字里要对应高亮的词（正则，可不写，默认就是标签）]
+// 坐标用骨骼图的坐标（左右成对的骨，用图上左边那一块）；挪动距离的单位约等于屏幕上的像素
+const MARKS = {
+  skull: [["Frontal bone", 150, 28, 44, -10, "frontal bone"], ["Orbit", 137, 56, -46, -8], ["Temporal bone", 183, 58, 36, 8, "temporal bones"],
+    ["Zygomatic bone", 123, 70, -44, 14, "zygomatic bones|cheekbones"], ["Maxilla", 143, 82, -44, 30]],
+  mandible: [["Angle of mandible", 124, 90, -44, 8, "angle of the mandible"], ["Chin", 150, 104, 0, 30, "chin"],
+    ["TMJ", 126, 73, -40, -14, "temporomandibular joint|TMJ"]],
+  cervical: [["C1 (atlas)", 150, 95, 52, -12, "atlas"], ["C2 (axis)", 150, 101, 52, 6, "axis"], ["C7 (vertebra prominens)", 150, 132, 52, 12, "C7|vertebra prominens"]],
+  thoracic: [["T1", 150, 138, 52, -4], ["T12", 150, 241, 52, 6]],
+  lumbar: [["L1", 150, 253, 54, -6], ["L4", 150, 290, 54, 4, "L4"], ["L5", 150, 302, 54, 16]],
+  sacrum: [["Sacral foramina", 158, 326, 44, 2, "sacral foramina"]],
+  coccyx: [["Tip of coccyx", 150, 364, 40, 12]],
+  sternum: [["Jugular notch", 150, 151, 54, -12, "jugular notch"], ["Manubrium", 150, 160, -54, -4, "manubrium"], ["Sternal angle", 150, 170, 54, 6, "sternal angle"],
+    ["Body", 150, 196, -54, 2, "body"], ["Xiphoid process", 150, 231, 54, 8, "xiphoid process"]],
+  ribs: [["2nd rib", 136, 171, -52, -12, "2nd ribs"], ["7th rib", 129, 217, -52, -2], ["Costal cartilage", 138, 199, 56, 0, "costal cartilage"],
+    ["Costal margin", 116, 244, -48, 10, "costal margin"], ["Floating ribs", 104, 259, -40, 22, "floating ribs"]],
+  clavicle: [["Sternal end", 140, 151, 24, -24, "inner end"], ["Acromial end", 92, 142, -32, -22, "outer end"]],
+  scapula: [["Acromion", 91, 141, -40, -16, "acromion"], ["Glenoid cavity", 92, 157, -46, 4, "glenoid cavity"], ["Inferior angle", 115, 223, -44, 12, "inferior angle"]],
+  humerus: [["Head of humerus", 94, 159, -50, -12, "round head"], ["Lateral epicondyle", 67, 266, -44, 8, "lateral epicondyle"], ["Medial epicondyle", 95, 264, 44, 8, "medial epicondyle"]],
+  radius: [["Head of radius", 72, 283, -44, -6], ["Radial styloid process", 51, 372, -44, 8, "radial styloid process"]],
+  ulna: [["Olecranon", 86, 282, 40, -8, "olecranon"], ["Head of ulna", 73, 368, 40, 10, "head of the ulna"]],
+  carpals: [["Scaphoid", 55, 379, -34, -22, "scaphoid"], ["Lunate", 62, 380, -10, -30, "lunate"], ["Triquetrum", 68.5, 379.5, 16, -30, "triquetrum"],
+    ["Pisiform", 74, 380.5, 38, -18, "pisiform"], ["Trapezium", 51.5, 387, -40, 24, "trapezium"], ["Trapezoid", 57.5, 388, -12, 34, "trapezoid"],
+    ["Capitate", 63.8, 388.5, 14, 34, "capitate"], ["Hamate", 70, 387.5, 38, 24, "hamate"]],
+  metacarpals: [["1st metacarpal", 46, 399, -44, -4, "1st metacarpal"], ["5th metacarpal", 75.5, 401, 44, 0, "5th metacarpal"], ["Metacarpal heads", 63, 417, 40, 16, "heads of the metacarpals"]],
+  "phalanges-h": [["Proximal phalanx", 63, 426, 44, -12, "proximal"], ["Middle phalanx", 63, 437, 44, 2, "middle"], ["Distal phalanx", 63, 446, 44, 16, "distal"],
+    ["Thumb: 2 bones", 38, 420, -40, 0, "thumb"]],
+  hip: [["Iliac crest", 104, 298, -44, -12, "iliac crest"], ["ASIS", 93, 312, -44, 6, "anterior superior iliac spine"], ["Ilium", 118, 315, 40, -14, "ilium"],
+    ["Acetabulum", 112, 346, -44, 14, "acetabulum"], ["Pubis", 142, 360, 34, 12, "pubis"], ["Ischial tuberosity", 128, 381, -36, 24, "ischial tuberosities"]],
+  femur: [["Head of femur", 117, 346, -46, -14, "head"], ["Neck of femur", 110, 352, 40, -22, "neck of the femur"], ["Greater trochanter", 99, 358, -44, 16, "greater trochanter"],
+    ["Lateral condyle", 118, 502, -44, 8], ["Medial condyle", 133, 502, 44, 8]],
+  patella: [["Base of patella", 126, 486, 40, -8], ["Apex of patella", 126, 505, 40, 10]],
+  tibia: [["Tibial tuberosity", 126, 528, 40, -6], ["Anterior border (shin)", 127, 556, 40, 8, "anterior border"], ["Medial malleolus", 138, 600, 40, 10, "medial malleolus"]],
+  fibula: [["Head of fibula", 111.5, 524, -44, -4, "head of the fibula"], ["Lateral malleolus", 116.5, 607, -44, 10, "lateral malleolus"]],
+  tarsals: [["Talus", 127, 609, 38, -12, "talus"], ["Calcaneus", 113, 617, -38, -8, "calcaneus"], ["Navicular", 132.5, 617.5, 40, 6, "navicular"],
+    ["Cuboid", 116.5, 625, -38, 14, "cuboid"], ["Cuneiforms", 129, 626, 30, 26, "cuneiforms"]],
+  metatarsals: [["1st metatarsal", 138, 640, 38, -6], ["5th metatarsal", 112, 637, -38, 4, "5th metatarsal"]],
+  "phalanges-f": [["Big toe: 2 bones", 140.5, 658, 36, 2, "big toe"], ["Little toe", 108, 651, -36, 6, "little toe"]],
+};
+
+// Find them on your body：想加新条目，照格式加一行 ["名称", "怎么找", "骨头 id/图上标的部位"]
 const LANDMARKS = [
-  { icon: "🙂", title: "头颈 · 躯干", items: [
-    ["枕外隆凸", "后脑勺正中、靠近发际线上方最突出的骨点。"],
-    ["下颌角", "耳垂下方、下巴骨的\"拐角\"。"],
-    ["第 7 颈椎棘突（隆椎）", "低头，后颈正中最凸出的那个骨点。"],
-    ["颈静脉切迹", "两侧锁骨内端之间、胸骨上端的小凹陷。"],
-    ["胸骨角", "从颈静脉切迹往下约 5 厘米的横行隆起，两侧连着第 2 肋。"],
-    ["肋弓", "胸前下方两侧斜向外下的弧形边缘，深吸气时更明显。"],
+  { icon: "🙂", title: "Head, neck & trunk", items: [
+    ["External occipital protuberance", "The most prominent point in the middle of the back of your head, just above the hairline.", "skull"],
+    ["Angle of the mandible", "The corner of your jaw, just below the earlobe.", "mandible/Angle of mandible"],
+    ["C7 spinous process (vertebra prominens)", "Bend your head forward: the most prominent bump in the middle of the back of your neck.", "cervical/C7 (vertebra prominens)"],
+    ["Jugular notch", "The small dip at the top of the sternum, between the inner ends of your collarbones.", "sternum/Jugular notch"],
+    ["Sternal angle", "A horizontal ridge about 5 cm below the jugular notch. The 2nd ribs attach on either side of it.", "sternum/Sternal angle"],
+    ["Costal margin", "The curved lower edge of the rib cage on each side — clearer when you breathe in deeply.", "ribs/Costal margin"],
   ]},
-  { icon: "💪", title: "上肢", items: [
-    ["锁骨", "从胸骨上端向肩膀方向摸，一整根都在皮下。"],
-    ["肩峰", "肩膀最外上方的骨点。"],
-    ["肱骨内上髁、外上髁", "肘部内外两侧的突起。内上髁后方就是\"麻筋\"（尺神经），轻轻按就好。"],
-    ["尺骨鹰嘴", "弯曲手肘时的肘尖。"],
-    ["桡骨茎突", "手腕拇指一侧的骨突。"],
-    ["尺骨头", "手背腕部、小指一侧的小圆骨。"],
+  { icon: "💪", title: "Upper limb", items: [
+    ["Clavicle", "Follow it from the top of the sternum toward your shoulder — the whole bone is just under the skin.", "clavicle"],
+    ["Acromion", "The highest, outermost point of your shoulder.", "scapula/Acromion"],
+    ["Medial and lateral epicondyles", "The bumps on the inner and outer sides of your elbow. Behind the medial one is the \"funny bone\" (the ulnar nerve) — press gently!", "humerus/Medial epicondyle"],
+    ["Olecranon", "The point of your elbow when you bend it.", "ulna/Olecranon"],
+    ["Radial styloid process", "The bony point on the thumb side of your wrist.", "radius/Radial styloid process"],
+    ["Head of the ulna", "The small round bump on the back of your wrist, little-finger side.", "ulna/Head of ulna"],
   ]},
-  { icon: "🦵", title: "下肢", items: [
-    ["髂嵴", "双手叉腰时摸到的弧形骨缘。"],
-    ["髂前上棘", "沿髂嵴往前摸到的尽头骨突，大约在系腰带的位置。"],
-    ["股骨大转子", "大腿外侧上端的大骨突，抬腿时能感觉它在动。"],
-    ["髌骨", "腿伸直、放松，能左右推动的膝盖骨。"],
-    ["胫骨前缘", "小腿正前方的骨嵴（迎面骨）。"],
-    ["内踝和外踝", "脚踝两侧的突起。比一比：外踝更低、更靠后。"],
-    ["跟骨", "脚后跟。"],
+  { icon: "🦵", title: "Lower limb", items: [
+    ["Iliac crest", "The curved bony edge you feel when you put your hands on your hips.", "hip/Iliac crest"],
+    ["Anterior superior iliac spine (ASIS)", "Follow the iliac crest forward to the bony point at its front end, about where a belt sits.", "hip/ASIS"],
+    ["Greater trochanter", "The big bump on the outer side of your upper thigh; you can feel it move when you lift your leg.", "femur/Greater trochanter"],
+    ["Patella", "With your leg straight and relaxed, you can slide it from side to side.", "patella"],
+    ["Anterior border of the tibia", "The bony ridge down the front of your shin.", "tibia/Anterior border (shin)"],
+    ["Medial and lateral malleoli", "The bumps on either side of your ankle. Compare them: the lateral one is lower and farther back.", "tibia/Medial malleolus"],
+    ["Calcaneus", "Your heel.", "tarsals/Calcaneus"],
   ]},
 ];
 
@@ -342,8 +384,8 @@ const SK_ZOOM = {
     const edge = [], fill = [];
     list.forEach((s) => {
       if (typeof s === "string") { edge.push(s); fill.push(s); return; }
-      edge.push(`<path class="s" d="${s.s}" style="stroke-width:${f(s.w + 2.4)}px"/>`);
-      fill.push(`<path class="s" d="${s.s}" style="stroke-width:${s.w}px"/>`);
+      edge.push(`<path class="s" d="${s.s}" style="--w:${s.w}px"/>`);
+      fill.push(`<path class="s" d="${s.s}" style="--w:${s.w}px"/>`);
     });
     const c = cls ? ` ${cls}` : "";
     return `<g class="e${c}">${edge.join("")}</g><g class="f${c}">${fill.join("")}</g>`;
@@ -358,7 +400,7 @@ const SK_ZOOM = {
   // 生成骨骼图。opt.sel 选中的骨；opt.zoom 放大区域
   window.skeletonSVG = function (opt = {}) {
     const vb = opt.zoom && SK_ZOOM[opt.zoom] ? SK_ZOOM[opt.zoom] : `0 0 ${SK_W} ${SK_H}`;
-    return `<svg class="sk${opt.sel ? " sel" : ""}${opt.zoom ? " z-" + opt.zoom : ""}${opt.cls ? " " + opt.cls : ""}" viewBox="${vb}" role="img" aria-label="${opt.label || "人体骨骼正面示意图"}">
+    return `<svg class="sk${opt.sel ? " sel" : ""}${opt.zoom ? " z-" + opt.zoom : ""}${opt.cls ? " " + opt.cls : ""}" viewBox="${vb}" role="img" aria-label="${opt.label || "Front view of the human skeleton"}">
       ${BODY}<g class="top"></g></svg>`;
   };
   // 把某块骨高亮，并复制一份放到最上层，这样被挡住的骨也能看清
@@ -380,78 +422,255 @@ const SK_ZOOM = {
 /* ================= 页面交互 ================= */
 (function () {
   const byId = Object.fromEntries(BONES.map((b) => [b.id, b]));
-  const GROUPS = ["颅骨", "躯干骨", "上肢骨", "下肢骨"];
+  const GROUPS = ["Skull", "Trunk", "Upper limb", "Lower limb"];
+  const reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reEsc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-  // ---- 点一点，认骨头 ----
+  // 图上的名称标签：[骨头 id, 指向的 x, 指向的 y, 标签的 y]。左边一列指向人物右侧那块骨，右边一列指向中线的骨
+  const ATLAS_L = [["clavicle", 112, 147, 147], ["scapula", 99, 182, 172], ["humerus", 84, 215, 215], ["hip", 97, 306, 262],
+    ["ulna", 81, 318, 296], ["radius", 65, 330, 322], ["carpals", 62, 382, 378], ["metacarpals", 62, 405, 403], ["phalanges-h", 60, 432, 430],
+    ["femur", 118, 470, 462], ["patella", 123, 497, 497], ["fibula", 113, 550, 540], ["tibia", 128, 566, 566],
+    ["tarsals", 119, 617, 612], ["metatarsals", 124, 640, 638], ["phalanges-f", 122, 660, 662]];
+  const ATLAS_R = [["skull", 180, 40, 40], ["mandible", 172, 98, 96], ["cervical", 158, 120, 122], ["thoracic", 160, 152, 150],
+    ["sternum", 156, 190, 180], ["ribs", 198, 215, 212], ["lumbar", 164, 277, 275], ["sacrum", 163, 318, 318], ["coccyx", 153, 360, 360]];
+  const MARGIN = 96;
+
+  // ---- Explore the skeleton ----
   const fig = document.getElementById("sk-fig");
-  const info = document.getElementById("sk-info");
-  const cap = document.getElementById("sk-cap");
-  const list = document.getElementById("sk-list");
   if (fig) {
-    fig.innerHTML = skeletonSVG({ label: "人体骨骼正面示意图，点击骨头查看说明" });
+    const info = document.getElementById("sk-info");
+    const cap = document.getElementById("sk-cap");
+    const list = document.getElementById("sk-list");
+    const btnFull = document.getElementById("sk-full");
+    const btnLab = document.getElementById("sk-lab");
+    fig.innerHTML = skeletonSVG({ label: "Front view of the human skeleton. Click a bone to learn about it." });
     const svg = fig.querySelector("svg");
+    const NS = "http://www.w3.org/2000/svg";
+    const atlas = document.createElementNS(NS, "g"); atlas.setAttribute("class", "atlas");
+    const marksG = document.createElementNS(NS, "g"); marksG.setAttribute("class", "marks");
+    svg.append(atlas, marksG);
+    atlas.innerHTML = ATLAS_L.map(([id, ax, ay, ly]) => `<g data-bone="${id}"><line x1="-4" y1="${ly - 3}" x2="${ax}" y2="${ay}"/><circle cx="${ax}" cy="${ay}" r="2"/><text x="-8" y="${ly}" text-anchor="end">${AN.esc(byId[id].tag)}</text></g>`).join("") +
+      ATLAS_R.map(([id, ax, ay, ly]) => `<g data-bone="${id}"><line x1="304" y1="${ly - 3}" x2="${ax}" y2="${ay}"/><circle cx="${ax}" cy="${ay}" r="2"/><text x="308" y="${ly}">${AN.esc(byId[id].tag)}</text></g>`).join("");
+
     list.innerHTML = GROUPS.map((g) => `
       <div class="sk-group"><span class="label">${g}</span><div class="chips">
         ${BONES.filter((b) => b.group === g).map((b) => `<button class="chip" data-bone="${b.id}">${AN.esc(b.name)}</button>`).join("")}
       </div></div>`).join("");
 
-    let cur = null;
-    function select(id) {
-      cur = id === cur ? null : id;
-      skeletonSelect(svg, cur);
+    let cur = null, zoomed = false, labelsOn = window.innerWidth > 760, anim = 0, pending = null;
+    let vb = [0, 0, SK_W, SK_H];
+
+    // ---- 缩放 ----
+    const fullRect = () => (labelsOn ? [-MARGIN, 0, SK_W + 2 * MARGIN, SK_H] : [0, 0, SK_W, SK_H]);
+    function boneRect(id) {
+      const g = svg.querySelector(`.b[data-bone="${id}"]:not([transform])`);
+      const bb = g.getBBox();
+      const p = Math.max(16, 0.35 * Math.max(bb.width, bb.height));
+      let [x, y, w, h] = [bb.x - p, bb.y - p, bb.width + 2 * p, bb.height + 2 * p];
+      if (w < 64) { x -= (64 - w) / 2; w = 64; }
+      const W = svg.clientWidth || 300, H = svg.clientHeight || 600;
+      // 部位标签的文字也要框进来，免得被裁掉。标签大小跟缩放比例 u（每像素多少单位）有关，所以反复算到稳定为止
+      const need = (u) => {
+        let [x0, y0, x1, y1] = [x, y, x + w, y + h];
+        (MARKS[id] || []).forEach(([name, mx, my, dx, dy]) => {
+          const lx = mx + dx * u, ly = my + dy * u, tw = name.length * 7.2 * u;
+          const left = Math.abs(dx) < 20 ? lx - tw / 2 : dx < 0 ? lx - tw : lx;
+          x0 = Math.min(x0, left - 8 * u); x1 = Math.max(x1, left + tw + 8 * u);
+          y0 = Math.min(y0, ly - 16 * u); y1 = Math.max(y1, ly + 8 * u);
+        });
+        return [x0, y0, x1, y1];
+      };
+      let u = Math.max(w / W, h / H);
+      for (let n = 0; n < 60; n++) {
+        const [x0, y0, x1, y1] = need(u);
+        const nu = Math.min(Math.max((x1 - x0) / W, (y1 - y0) / H), (SK_W * 1.4) / W);
+        if (Math.abs(nu - u) < 1e-4) break;
+        u = nu;
+      }
+      const [x0, y0, x1, y1] = need(u);
+      const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+      return [cx - (W * u) / 2, cy - (H * u) / 2, W * u, H * u];
+    }
+    function apply() {
+      svg.setAttribute("viewBox", vb.map((n) => n.toFixed(2)).join(" "));
+      const s = Math.min(svg.clientWidth / vb[2], svg.clientHeight / vb[3]) || 1;
+      svg.style.setProperty("--u", (1 / s).toFixed(4));
+      svg.style.setProperty("--k", Math.min(1.25, 1 / s).toFixed(4));
+    }
+    function go(target, instant) {
+      cancelAnimationFrame(anim);
+      marksG.innerHTML = "";
+      svg.classList.toggle("zoomed", zoomed);
+      btnFull.disabled = !zoomed;
+      const from = vb.slice(), t0 = performance.now(), dur = instant || reduceMotion ? 0 : 480;
+      const step = (t) => {
+        const p = dur ? Math.min(1, (t - t0) / dur) : 1;
+        const e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+        vb = from.map((v, i) => v + (target[i] - v) * e);
+        apply();
+        if (p < 1) anim = requestAnimationFrame(step); else if (zoomed && cur) drawMarks();
+      };
+      anim = requestAnimationFrame(step);
+    }
+
+    // ---- 图上标出的部位 ----
+    function drawMarks() {
+      const u = parseFloat(svg.style.getPropertyValue("--u")) || 1;
+      marksG.innerHTML = (MARKS[cur] || []).map(([name, x, y, dx, dy], i) => {
+        const lx = x + dx * u, ly = y + dy * u;
+        const anchor = Math.abs(dx) < 20 ? "middle" : dx < 0 ? "end" : "start";
+        const ey = anchor === "middle" ? (dy < 0 ? ly + 3 * u : ly - 12 * u) : ly - 4 * u;
+        const ex = anchor === "middle" ? lx : lx - Math.sign(dx) * 3 * u;
+        return `<g class="mark" data-i="${i}"><line x1="${x}" y1="${y}" x2="${ex.toFixed(2)}" y2="${ey.toFixed(2)}"/>
+          <circle class="ring" cx="${x}" cy="${y}" r="${(4 * u).toFixed(2)}"/><circle class="dot" cx="${x}" cy="${y}" r="${(3.4 * u).toFixed(2)}"/>
+          <text x="${lx.toFixed(2)}" y="${ly.toFixed(2)}" text-anchor="${anchor}">${AN.esc(name)}</text></g>`;
+      }).join("");
+      // 手机屏幕窄，放不下的标签往里挪，别被裁掉
+      const pad = 4 * u, [vx, vy, vw, vh] = vb;
+      marksG.querySelectorAll("text").forEach((t) => {
+        const bb = t.getBBox();
+        const sx = bb.x < vx + pad ? vx + pad - bb.x : bb.x + bb.width > vx + vw - pad ? vx + vw - pad - bb.x - bb.width : 0;
+        const sy = bb.y < vy + pad ? vy + pad - bb.y : bb.y + bb.height > vy + vh - pad ? vy + vh - pad - bb.y - bb.height : 0;
+        if (!sx && !sy) return;
+        t.setAttribute("x", (+t.getAttribute("x") + sx).toFixed(2));
+        t.setAttribute("y", (+t.getAttribute("y") + sy).toFixed(2));
+        const ln = t.parentNode.querySelector("line");
+        ln.setAttribute("x2", (+ln.getAttribute("x2") + sx).toFixed(2));
+        ln.setAttribute("y2", (+ln.getAttribute("y2") + sy).toFixed(2));
+      });
+      if (pending != null) { const i = pending; pending = null; ping(i); }
+    }
+    function hot(i) {
+      svg.querySelectorAll(".mark").forEach((m) => m.classList.toggle("hot", m.dataset.i === String(i)));
+      info.querySelectorAll("[data-mk]").forEach((s) => s.classList.toggle("hot", s.dataset.mk === String(i)));
+    }
+    function ping(i) {
+      if (!zoomed) { pending = i; zoomed = true; go(boneRect(cur)); return; }
+      const m = svg.querySelector(`.mark[data-i="${i}"]`);
+      if (!m) return;
+      m.classList.remove("ping"); void m.getBBox(); m.classList.add("ping");
+      hot(i);
+      clearTimeout(ping.t); ping.t = setTimeout(() => hot(null), 1600);
+    }
+
+    // ---- 说明文字：部位名可以指到图上，别的骨头名可以点过去 ----
+    function linkify(text, b) {
+      const parts = [];
+      (MARKS[b.id] || []).forEach((m, i) => parts.push({ src: m[5] || reEsc(m[0]), mk: i }));
+      BONES.forEach((o) => { if (o.id !== b.id && o.link) parts.push({ src: o.link, bone: o.id }); });
+      parts.sort((p, q) => q.src.length - p.src.length);
+      const re = new RegExp(`\\b(?:${parts.map((p) => `(${p.src})`).join("|")})\\b`, "gi");
+      return AN.esc(text).replace(re, (m, ...g) => {
+        const p = parts[g.findIndex((x, i) => i < parts.length && x !== undefined)];
+        return p.mk != null ? `<span class="mk" data-mk="${p.mk}" tabindex="0">${m}</span>` : `<a href="#explore" class="bl" data-bone="${p.bone}">${m}</a>`;
+      });
+    }
+
+    function render() {
       list.querySelectorAll(".chip").forEach((c) => c.classList.toggle("on", c.dataset.bone === cur));
+      atlas.querySelectorAll("g").forEach((g) => g.classList.toggle("on", g.dataset.bone === cur));
       const b = byId[cur];
       if (!b) {
-        cap.innerHTML = "点一下图上的骨头试试 👆";
-        info.innerHTML = `<p class="sk-empty">点击左边骨骼图上的任意一块骨头，或者下面的名字，看看它叫什么、在哪里、怎么在自己身上摸到。</p>`;
+        cap.innerHTML = "Tap any bone to start 👆";
+        info.innerHTML = `<p class="sk-empty">Click any bone on the skeleton, or a name below. You'll see what it's called, where it is and how to find it on your own body — and the picture zooms in to show its parts.</p>`;
         return;
       }
-      cap.innerHTML = `<b>${AN.esc(b.name)}</b> <span class="en">${AN.esc(b.en)}</span> · ${AN.esc(b.count)}`;
+      const marks = MARKS[b.id] || [];
+      cap.innerHTML = `<b>${AN.esc(b.name)}</b> · ${AN.esc(b.count)}`;
       info.innerHTML = `
         <div class="tags"><span class="tag">${AN.esc(b.group)}</span><span class="tag gold">${AN.esc(b.count)}</span></div>
-        <h3>${AN.esc(b.name)} <span class="en">${AN.esc(b.en)}</span></h3>
+        <h3>${AN.esc(b.name)}</h3>
         <p class="sk-short">${AN.esc(b.short)}</p>
-        <h4>在哪里 · 长什么样</h4><p>${AN.esc(b.desc)}</p>
-        ${b.feel ? `<h4>✋ 在自己身上摸一摸</h4><p>${AN.esc(b.feel)}</p>` : ""}
-        ${b.tip ? `<div class="tip">💡 ${AN.esc(b.tip)}</div>` : ""}`;
+        ${marks.length ? `<div class="mk-list"><span>📍 On the picture:</span>${marks.map((m, i) => `<button class="chip" data-mk="${i}">${AN.esc(m[0])}</button>`).join("")}</div>` : ""}
+        <h4>What &amp; where</h4><p>${linkify(b.desc, b)}</p>
+        ${b.feel ? `<h4>✋ Feel it on your body</h4><p>${linkify(b.feel, b)}</p>` : ""}
+        ${b.tip ? `<div class="tip">💡 ${linkify(b.tip, b)}</div>` : ""}`;
     }
+
+    function select(id, keep) {
+      cur = !keep && id === cur ? null : id;
+      skeletonSelect(svg, cur);
+      render();
+      zoomed = !!cur;
+      go(cur ? boneRect(cur) : fullRect());
+    }
+
     svg.addEventListener("click", (e) => {
       const g = e.target.closest("[data-bone]");
-      select(g ? g.dataset.bone : cur);
+      if (g) select(g.dataset.bone);
+      const m = e.target.closest(".mark");
+      if (m) ping(+m.dataset.i);
     });
-    list.addEventListener("click", (e) => {
-      const c = e.target.closest(".chip");
-      if (c) select(c.dataset.bone);
+    svg.addEventListener("mouseover", (e) => { const m = e.target.closest(".mark"); hot(m ? m.dataset.i : null); });
+    list.addEventListener("click", (e) => { const c = e.target.closest(".chip"); if (c) select(c.dataset.bone); });
+    info.addEventListener("click", (e) => {
+      const a = e.target.closest(".bl");
+      if (a) { e.preventDefault(); select(a.dataset.bone, true); return; }
+      const s = e.target.closest("[data-mk]");
+      if (s) ping(+s.dataset.mk);
     });
-    select(null);
+    info.addEventListener("keydown", (e) => { const s = e.target.closest(".mk"); if (s && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); ping(+s.dataset.mk); } });
+    info.addEventListener("mouseover", (e) => { const s = e.target.closest("[data-mk]"); hot(s ? s.dataset.mk : null); });
+    btnFull.onclick = () => { zoomed = false; go(fullRect()); };
+    function setLabels(on) {
+      labelsOn = on;
+      svg.classList.toggle("nolabels", !on);
+      btnLab.classList.toggle("on", on);
+      btnLab.setAttribute("aria-pressed", on);
+      if (!zoomed) go(fullRect());
+    }
+    btnLab.onclick = () => setLabels(!labelsOn);
+    let rt;
+    window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => go(zoomed && cur ? boneRect(cur) : fullRect(), true), 150); });
+
+    // 给"摸一摸"清单用：跳到骨骼图并指出某个部位
+    window.showOnSkeleton = function (ref) {
+      const [id, mark] = ref.split("/");
+      document.getElementById("explore").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      const i = mark ? (MARKS[id] || []).findIndex((m) => m[0] === mark) : -1;
+      if (i >= 0) pending = i;
+      select(id, true);
+    };
+
+    setLabels(labelsOn);
+    vb = fullRect();
+    apply();
+    render();
   }
 
-  // ---- 在自己身上摸一摸（勾选会保存在自己的浏览器里） ----
+  // ---- Find them on your body（勾选会保存在自己的浏览器里） ----
   const lm = document.getElementById("lm-list");
   if (lm) {
-    const store = AN.store("anatomy-landmarks-v1");
+    const store = AN.store("anatomy-landmarks-en-v1");
     let saved = store.get();
     lm.innerHTML = LANDMARKS.map((g, gi) => `
       <section class="card check-group">
         <h3>${g.icon} ${AN.esc(g.title)}</h3>
-        ${g.items.map(([t, tip], ii) => `
-          <label class="check-item" for="lm-${gi}-${ii}">
-            <input type="checkbox" id="lm-${gi}-${ii}" data-k="${AN.esc(t)}" ${saved[t] ? "checked" : ""}>
-            <span class="box"></span>
-            <span class="t"><b>${AN.esc(t)}</b><small>${AN.esc(tip)}</small></span>
-          </label>`).join("")}
+        ${g.items.map(([t, tip, ref], ii) => `
+          <div class="lm-row">
+            <label class="check-item" for="lm-${gi}-${ii}">
+              <input type="checkbox" id="lm-${gi}-${ii}" data-k="${AN.esc(t)}" ${saved[t] ? "checked" : ""}>
+              <span class="box"></span>
+              <span class="t"><b>${AN.esc(t)}</b><small>${AN.esc(tip)}</small></span>
+            </label>
+            ${ref ? `<button class="chip lm-show" data-ref="${AN.esc(ref)}">Show me</button>` : ""}
+          </div>`).join("")}
       </section>`).join("");
     const boxes = [...lm.querySelectorAll("input")];
     const update = () => {
       const n = boxes.filter((b) => b.checked).length;
       document.getElementById("lm-bar").style.width = `${(n / boxes.length) * 100}%`;
-      document.getElementById("lm-done").textContent = n === boxes.length ? `全部摸到了 ✓ ${n}/${boxes.length}` : `已摸到 ${n}/${boxes.length}`;
+      document.getElementById("lm-done").textContent = n === boxes.length ? `Found them all ✓ ${n}/${boxes.length}` : `Found ${n}/${boxes.length}`;
     };
     lm.addEventListener("change", (e) => {
       if (e.target.type !== "checkbox") return;
       if (e.target.checked) saved[e.target.dataset.k] = 1; else delete saved[e.target.dataset.k];
       store.set(saved);
       update();
+    });
+    lm.addEventListener("click", (e) => {
+      const b = e.target.closest(".lm-show");
+      if (b && window.showOnSkeleton) window.showOnSkeleton(b.dataset.ref);
     });
     document.getElementById("lm-reset").onclick = () => {
       boxes.forEach((b) => (b.checked = false));
@@ -462,22 +681,22 @@ const SK_ZOOM = {
     update();
   }
 
-  // ---- 看图认骨小测验：随机抽 10 块骨，干扰项尽量选同一类的 ----
+  // ---- Quiz · Name that bone：随机抽 10 块骨，干扰项尽量选同一类的 ----
   const qbox = document.getElementById("quiz");
   if (qbox) {
     AN.quiz(qbox, () => AN.shuffle(BONES).slice(0, 10).map((b) => {
       const same = AN.shuffle(BONES.filter((x) => x.id !== b.id && x.group === b.group));
       const other = AN.shuffle(BONES.filter((x) => x.id !== b.id && x.group !== b.group));
       const wrong = same.concat(other).slice(0, 3).map((x) => x.name);
-      const svg = skeletonSVG({ sel: true, zoom: b.zoom, cls: "sk-quiz", label: "骨骼示意图，其中一块骨被高亮" });
+      const svg = skeletonSVG({ sel: true, zoom: b.zoom, cls: "sk-quiz", label: "Skeleton with one bone highlighted" });
       return {
-        q: "图中绿色高亮的是哪块骨？",
+        q: "Which bone is highlighted?",
         options: [b.name].concat(wrong),
         a: b.name,
-        why: `${b.name}（${b.count}）：${b.short}`,
+        why: `${b.name} (${b.count}): ${b.short}`,
         visual: `<div class="q-sk" data-bone="${b.id}">${svg}</div>`,
       };
-    }), { href: "#explore", text: "回去认骨头 Review" });
+    }), { href: "#explore", text: "Back to the skeleton" });
 
     // 题目换页时，把高亮画上去
     new MutationObserver(() => {
